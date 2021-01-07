@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Web App</title>
+      <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='style.css')}}"/>
+   </head>
+   <body>
+   {% include 'header.html' %}
+   <section class="main">
+      {% include 'nav.html' %}
+      <div class="content-wrapper">
+         <div class="content">
+            {%block body%}{% endblock%}
+         </div>
+      </div>
+   </section>
+   </body>
+   <script src="{{url_for('static', filename='script.js')}}"></script>
+</html>

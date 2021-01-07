@@ -1,0 +1,105 @@
+{% extends "layout.html"%}
+
+    {% block body%}
+    
+   <h1>Start New Job</h1>
+   <form class="start-job-form"action="" method="POST">
+
+    <div class="form-col-wrap">
+    <div class="form-col-left">
+        <div class="field-wrap">
+            <label>Operator<span class="req">*</span></label>
+                <select name="operator">
+                    <option value=""></option>
+                    <option value="1">Steven</option>
+                    <option value="2">Diego</option>
+                    <option value="3">Juan</option>
+                </select>
+        </div>
+    
+        <div class="field-wrap">
+            <label class="w200" >Job Name<span class="req">*</span></label>
+            <input class="w200" type="text" name ='job_name' required autocomplete="off" />
+        </div>
+    
+        <div class="field-wrap">
+            <label class="w200" >Work Order<span class="req">*</span></label>
+            <input class="w200"  type="text" name ='work_order' required autocomplete="off" />
+        </div>
+    
+    
+        <div class="field-wrap">
+            <label class="w200" >Work Cell<span class="req">*</span></label>
+                <select class="w200"  name="work_cell">
+                    <option value=""></option>
+                    <option value="1">Pilot</option>
+                    <option value="2">Large Hock</option>
+                    <option value="3">Ross 100</option>
+                </select>
+        </div>
+    
+    
+        <div class="field-wrap">
+            <label class="w200" >Job Type<span class="req">*</span></label>
+                <select class="w200"  name="job_type">
+                    <option value=""></option>
+                    <option value="1">Normal</option>
+                    <option value="2">Rework</option>
+                    <option value="3">DOE</option>
+                </select>
+        </div>
+    
+    
+    
+        <div class="field-wrap">
+            <label class="w200" >Job Weight<span class="req">*</span></label>
+            <input class="w200"  type="text" name ='job_weight' required autocomplete="off" />
+        </div>
+    
+    
+        <div class="field-wrap">
+            <label class="w200" >Last Operation Number<span class="req">*</span></label>
+                <select class="w200"  name="total_operations">
+                    <option value=""></option>
+                    <option value="1">10</option>
+                    <option value="2">20</option>
+                    <option value="3">30</option>
+                </select>
+        </div>
+    </div>
+    
+
+    <div class="form-col-right">
+
+        <div class="field-wrap">
+            <fieldset>
+                <h3>Does the Job have any of these?</h3>
+                <input class="ckbx" type="checkbox" name="in_process_testing" value="in_process_testing"/> In Process Testing
+                <input class="ckbx" type="checkbox" name="preadjustments" value="preadjustments"/> preadjustments
+            </fieldset>
+        </div>
+    
+        <div class="field-wrap">
+            <label>Operator Notes</label>
+            <textarea class="notes" name ='notes' required autocomplete="off"></textarea>
+        </div>
+
+        <div class="field-wrap">
+            <input class="submit" type="submit" name="Start_new_job" value="Start New Job">
+        </div>
+    </div>
+
+</div>
+
+  
+
+
+
+
+
+
+   </form>
+   
+
+     
+      {% endblock %}
