@@ -10,10 +10,13 @@
         <div class="field-wrap">
             <label>Operator<span class="req">*</span></label>
                 <select name="operator">
+
                     <option value=""></option>
-                    <option value="1">Steven</option>
-                    <option value="2">Diego</option>
-                    <option value="3">Juan</option>
+
+                    {% for op in oplist %}
+                    <option value="{{op[0]}}">{{op[1]}}</option>
+                    {% endfor %}
+
                 </select>
         </div>
     
@@ -32,9 +35,9 @@
             <label class="w200" >Work Cell<span class="req">*</span></label>
                 <select class="w200"  name="work_cell">
                     <option value=""></option>
-                    <option value="1">Pilot</option>
-                    <option value="2">Large Hock</option>
-                    <option value="3">Ross 100</option>
+                    {% for cell in workcellList  %}
+                    <option value="{{cell[0]}}">{{cell[1]}}</option>
+                    {% endfor %}
                 </select>
         </div>
     
@@ -43,9 +46,9 @@
             <label class="w200" >Job Type<span class="req">*</span></label>
                 <select class="w200"  name="job_type">
                     <option value=""></option>
-                    <option value="1">Normal</option>
-                    <option value="2">Rework</option>
-                    <option value="3">DOE</option>
+                    {% for type in typeList %}
+                    <option value="{{type[0]}}">{{type[1]}}</option>
+                    {% endfor %}
                 </select>
         </div>
     
@@ -61,9 +64,12 @@
             <label class="w200" >Last Operation Number<span class="req">*</span></label>
                 <select class="w200"  name="total_operations">
                     <option value=""></option>
-                    <option value="1">10</option>
-                    <option value="2">20</option>
-                    <option value="3">30</option>
+                    {% for x in range(10) %}
+                        {% if x!=0 %}
+                            <option value="1">{{x * 10}}</option>
+                        {% endif %}
+                    {% endfor %}
+                    
                 </select>
         </div>
     </div>
@@ -81,7 +87,7 @@
     
         <div class="field-wrap">
             <label>Operator Notes</label>
-            <textarea class="notes" name ='notes' required autocomplete="off"></textarea>
+            <textarea class="notes" name ='notes' autocomplete="off"></textarea>
         </div>
 
         <div class="field-wrap">

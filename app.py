@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
 from markupsafe import escape
 import os
 import csv
+from data import DB
 
 
 
@@ -28,13 +28,16 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-     return render_template('index.html')
+    return render_template('index.html')
 
 
 
 @app.route("/new_job/", methods=['POST','GET'])
 def form():
-    return render_template('new_job.html')
+    oplist = DB.getActiveOperators()
+    typeList = DB.getJobType()
+    workcellList = DB.getWorkCells()
+    return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
 
 
 
