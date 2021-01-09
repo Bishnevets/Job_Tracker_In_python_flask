@@ -1,9 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import csv
 
 def make_connection():
-    connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db"
+    connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db" #home
+    #connection_String = "C:\\Users\\stephenb\\Desktop\\project x\\data\\JT_DATA.db" #work
     return sqlite3.connect(connection_String)
 
 def end_connection(conn):
@@ -76,6 +77,87 @@ def getJobType():
     end_connection(conn)
 
     return items
+
+
+def startJob(newRecord):
+    conn = make_connection()
+    c = conn.cursor()
+
+
+    oper  = newRecord['operator']
+    job   = newRecord['job']
+    WO    = newRecord['workOrder']
+    cell  = newRecord['workCell']
+    jtype = newRecord['jobType']
+    weig  = newRecord['jobWeight']
+    tops  = newRecord['totalOperatiions']
+    test  = newRecord['inProcessTesting']
+    PA    = newRecord['preAdjustments']
+    note  = newRecord['notes']
+    stat  = newRecord['jobStatus']
+    time  = newRecord['startTime']
+    date  = newRecord['startDate']
+    last  = newRecord['lastOperation']
+    acti  = newRecord['Activity']
+
+    SQL = "INSERT INTO Job_Record ( "
+    SQL += "Job, "
+    SQL += "Work_Order, "
+    SQL += "Job_Weight, "
+    SQL += "Work_Cell, "
+    SQL += "Job_Type, "
+    SQL += "Job_Status, "
+    SQL += "Start_Time, "
+    SQL += "Notes, "
+    SQL += "'In-Process_Testing', "
+    SQL += "Pre_Adjustment, "
+    SQL += "Total_Operations, "
+    SQL += "Start_Date, "
+    SQL += "Last_Operation) "
+    SQL += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);"
+    c.execute(SQL,(job,WO,weig,cell,jtype,stat,time,note,test,PA,tops,date,last))
+    conn.commit()
+    
+
+    SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
+    c.execute(SQL)
+    JobIndex = c.fetchone()[0]
+
+
+    SQL = "INSERT INTO Activity( "
+    SQL += "Operator, " 
+    SQL += "Activity, "
+    SQL += "Activity_Date, "
+    SQL += "Job_Id, "
+    SQL += "Operation, " 
+    SQL += "Activity_Time) "
+    SQL += "VALUES(?,?,?,?,?,?);"
+    c.execute(SQL,(oper,acti,date,JobIndex,last,time))
+    conn.commit()
+
+    end_connection(conn)
+    message = "Job Started"
+    # return message
+
+
+
+
+def getLastJobRecord():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
+
+
+
+
+
+
+
+
 
 
 # getActiveOperators()
