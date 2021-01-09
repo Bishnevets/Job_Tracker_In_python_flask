@@ -1,0 +1,14 @@
+{% extends "layout.html"%}
+
+
+
+{% block body%}   
+
+<h1>New Job Started Successfully</h1>
+<p>Job: {{newRecord['job']}}</p>
+<p>Work order: {{newRecord['workOrder']}}</p>
+<p>Time: {{newRecord['startDate'] + ' ' + newRecord['startTime']}}</p>
+
+<p><a href="/">back to dashboard</a></p>
+
+{% endblock%}

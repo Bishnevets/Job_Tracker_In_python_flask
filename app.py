@@ -30,6 +30,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/new_job_success/", methods=['POST','GET'])
+def jobSuccess():
+    return render_template('new_job_success.html')
+
+
 
 @app.route("/new_job/", methods=['POST','GET'])
 def newJobform():
@@ -95,13 +100,17 @@ def newJobform():
                 'Activity' : 4 #the value 4 represents 'starting' from the Activity_Action table
             }
             DB.startJob(newRecord)
-            return  "Woo hoo its working!"
+            return  render_template('new_job_success.html',newRecord=newRecord)
            
         else:
             return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
         
 
     return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
+
+
+
+
 
 
 
