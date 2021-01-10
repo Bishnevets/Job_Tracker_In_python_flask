@@ -98,6 +98,15 @@ def getJobsCompleteThisMonth():
     return value
 
 
+def getRunningJobsList():    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectRunningJobList()
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
+
 
 
 

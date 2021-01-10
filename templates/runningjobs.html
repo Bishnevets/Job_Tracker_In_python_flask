@@ -1,0 +1,75 @@
+{% extends "layout.html"%}
+
+    {% block body%}
+
+
+  
+
+   <div class="table-wrap">	
+    <div class='table-header'>
+        <h2>Running Jobs</h2>    
+   </div>
+        <table>
+           <thead>
+            <tr>
+                <th></th>
+                <th>Job</th>
+                <th>Work order</th>
+                <th>cell</th>
+                <th>Status</th>
+                <th>Weight</th>
+                <th>Current Operator</th>
+                <th>Last Activity</th>
+            </tr>
+        </thead>
+         
+           <div class="table-body">
+                <tbody>
+                    {% for job in jobs  %}
+                    <tr>
+                        <td class="tbl-link"><a href="">Advance</a></td>
+                        <td>{{job['job']}}</td>
+                        <td>{{job['workorder']}}</td>
+                        <td>{{job['cell']}}</td>
+                        <td>{{job['status']}}</td>
+                        <td>{{job['Weight']}} KG</td>
+                        <td>{{job['operator']}}</td>
+                        <td>{{job['timestamp']}}</td>
+                    </tr>
+
+                 {% endfor %}  
+                </tbody>
+            </div><!-- End table body  -->
+        </table>          
+</div>
+
+<!-- <div class="table-footer"></div> 
+     -->
+
+
+
+      {% endblock %}
+
+
+
+
+      <!-- <tr>
+        <td class="tbl-link"><a href="">Advance</a></td>
+        <td>X-506-80-C</td>
+        <td>265060</td>
+        <td>Ross 100</td>
+        <td>In Progress</td>
+        <td>290 KG</td>
+        <td>Steve Bishop</td>
+        <td>2021-09-01 10:42 PM</td>
+    </tr>
+    <tr>
+        <td class="tbl-link"><a href="">Advance</a></td>
+        <td>X-506-80-C</td>
+        <td>265060</td>
+        <td>Ross 100</td>
+        <td>In Progress</td>
+        <td>290 KG</td>
+        <td>Steve Bishop</td>
+        <td>2021-09-01 10:42 PM</td>
+    </tr> -->
