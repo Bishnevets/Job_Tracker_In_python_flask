@@ -1,6 +1,7 @@
 # from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import csv
+import data.SQL as Q
 
 def make_connection():
     connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db" #home
@@ -15,25 +16,10 @@ def end_connection(conn):
 def getActiveOperators():    
     conn = make_connection()
     c = conn.cursor()
-    SQL = "SELECT "
-    SQL += "o.Operator_ID, "
-    SQL += "o.First_Name || ' ' || o.Last_Name AS [Name], "
-    SQL += "ds.Shift, "
-    SQL += "os.Status "
-    SQL += "FROM Operators o "
-    SQL += "JOIN Dept_Shifts ds ON ds.Shift_ID = o.Shift "
-    SQL += "JOIN Operator_Status os ON os.Status_ID = o.Status "
-    SQL += "WHERE os.Status NOT IN ('Inactive') "
-    SQL += "ORDER BY ds.Shift, [Name]"
-
+    SQL = Q.SelectActiveOperators()
     c.execute(SQL)
     items = c.fetchall()
-
-    # for item in items:
-    #     print(str(item[1]))
-
     end_connection(conn)
-
     return items
     
 
@@ -41,20 +27,10 @@ def getActiveOperators():
 def getWorkCells():    
     conn = make_connection()
     c = conn.cursor()
-    SQL = "SELECT "
-    SQL += "wc.Cell_ID, "
-    SQL += "wc.Cell  "
-    SQL += "FROM Work_Cells wc; "
-    
-
+    SQL = Q.SelectWorkCells()
     c.execute(SQL)
     items = c.fetchall()
-
-    # for item in items:
-    #     print(str(item[1]))
-
     end_connection(conn)
-
     return items
 
 
@@ -62,82 +38,26 @@ def getWorkCells():
 def getJobType():    
     conn = make_connection()
     c = conn.cursor()
-    SQL = "SELECT "
-    SQL += "jc.Type_ID, "
-    SQL += "jc.Type "
-    SQL += "FROM Job_Categories jc; "
-    
-
+    SQL = Q.SelectJobType()
     c.execute(SQL)
     items = c.fetchall()
-
-    # for item in items:
-    #     print(str(item[1]))
-
     end_connection(conn)
-
     return items
 
 
 def startJob(newRecord):
     conn = make_connection()
     c = conn.cursor()
-
-
-    oper  = newRecord['operator']
-    job   = newRecord['job']
-    WO    = newRecord['workOrder']
-    cell  = newRecord['workCell']
-    jtype = newRecord['jobType']
-    weig  = newRecord['jobWeight']
-    tops  = newRecord['totalOperatiions']
-    test  = newRecord['inProcessTesting']
-    PA    = newRecord['preAdjustments']
-    note  = newRecord['notes']
-    stat  = newRecord['jobStatus']
-    time  = newRecord['startTime']
-    date  = newRecord['startDate']
-    last  = newRecord['lastOperation']
-    acti  = newRecord['Activity']
-
-    SQL = "INSERT INTO Job_Record ( "
-    SQL += "Job, "
-    SQL += "Work_Order, "
-    SQL += "Job_Weight, "
-    SQL += "Work_Cell, "
-    SQL += "Job_Type, "
-    SQL += "Job_Status, "
-    SQL += "Start_Time, "
-    SQL += "Notes, "
-    SQL += "'In-Process_Testing', "
-    SQL += "Pre_Adjustment, "
-    SQL += "Total_Operations, "
-    SQL += "Start_Date, "
-    SQL += "Last_Operation) "
-    SQL += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);"
-    c.execute(SQL,(job,WO,weig,cell,jtype,stat,time,note,test,PA,tops,date,last))
+    SQL = Q.InsertIntoJobRecord(newRecord)
+    c.execute(SQL)
     conn.commit()
-    
-
-    SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
+    SQL = Q.SelectLastJobRecord()
     c.execute(SQL)
     JobIndex = c.fetchone()[0]
-
-
-    SQL = "INSERT INTO Activity( "
-    SQL += "Operator, " 
-    SQL += "Activity, "
-    SQL += "Activity_Date, "
-    SQL += "Job_Id, "
-    SQL += "Operation, " 
-    SQL += "Activity_Time) "
-    SQL += "VALUES(?,?,?,?,?,?);"
-    c.execute(SQL,(oper,acti,date,JobIndex,last,time))
+    SQL = Q.InsertIntoActivity(newRecord,JobIndex)
+    c.execute(SQL)
     conn.commit()
-
     end_connection(conn)
-    message = "Job Started"
-    # return message
 
 
 
@@ -145,7 +65,7 @@ def startJob(newRecord):
 def getLastJobRecord():
     conn = make_connection()
     c = conn.cursor()
-    SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
+    SQL = Q.SelectLastJobRecord()
     c.execute(SQL)
     value = c.fetchone()[0]
     end_connection(conn)
@@ -153,25 +73,14 @@ def getLastJobRecord():
 
 
 
-
-
-
-
-
-
-
-# getActiveOperators()
-# getWorkCells()
-# getJobType()
-
-
-
-
-
-
-
-
-
+def RunningJobsCount():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.RunningJobsCountSQL()
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
 
 
 

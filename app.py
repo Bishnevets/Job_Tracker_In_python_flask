@@ -5,6 +5,7 @@ import csv
 from data import DB
 from datetime import datetime
 
+
 # web application instance
 app = Flask(__name__)
 
@@ -13,21 +14,32 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 #db = SQLAlchemy(app)
 
-
 #-------------------------Alchemy Models--------------------------------------- 
 
-
 #-------------------------lists and veriables--------------------------------------- 
-
-
-
 
 
 #-------------------------routing--------------------------------------- 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+
+    
+
     return render_template('index.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @app.route("/new_job_success/", methods=['POST','GET'])
