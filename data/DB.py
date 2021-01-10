@@ -11,8 +11,6 @@ def make_connection():
 def end_connection(conn):
     conn.close()
 
-
-
 def getActiveOperators():    
     conn = make_connection()
     c = conn.cursor()
@@ -22,8 +20,6 @@ def getActiveOperators():
     end_connection(conn)
     return items
     
-
-
 def getWorkCells():    
     conn = make_connection()
     c = conn.cursor()
@@ -33,8 +29,6 @@ def getWorkCells():
     end_connection(conn)
     return items
 
-
-    
 def getJobType():    
     conn = make_connection()
     c = conn.cursor()
@@ -43,7 +37,6 @@ def getJobType():
     items = c.fetchall()
     end_connection(conn)
     return items
-
 
 def startJob(newRecord):
     conn = make_connection()
@@ -59,9 +52,6 @@ def startJob(newRecord):
     conn.commit()
     end_connection(conn)
 
-
-
-
 def getLastJobRecord():
     conn = make_connection()
     c = conn.cursor()
@@ -71,22 +61,41 @@ def getLastJobRecord():
     end_connection(conn)
     return value
 
-
-
 def RunningJobsCount():
     conn = make_connection()
     c = conn.cursor()
-    SQL = Q.RunningJobsCountSQL()
+    SQL = Q.SelectRunningJobsCount()
     c.execute(SQL)
     value = c.fetchone()[0]
     end_connection(conn)
     return value
 
+def getJobsCompleteToday():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectCompleteTodayCount()
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
 
+def getJobsCompleteThisWeek():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectCompleteThisWeekCount()
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
 
-
-
-
+def getJobsCompleteThisMonth():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectCompleteThisMonthCount()
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
 
 
 

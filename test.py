@@ -2,7 +2,17 @@ from data import DB
 
 
 
-x = DB.RunningJobsCount()
+runningJobs = DB.RunningJobsCount()
+dayCount = DB.getJobsCompleteToday()
+weekCount = DB.getJobsCompleteThisWeek()
+monthCount = DB.getJobsCompleteThisMonth()
+
+output = {
+    'runningJobs' : runningJobs,
+    'dayCount' : dayCount,
+    'weekCount' : weekCount,
+    'monthCount' : monthCount
+}
 
 
-print(x)
+print(output['monthCount'])

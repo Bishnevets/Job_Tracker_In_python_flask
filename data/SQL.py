@@ -6,6 +6,25 @@ def SelectRunningJobsCount():
     SQL = "SELECT Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr WHERE jr.Job_Status  in (1,3,4,7)"
     return SQL
 
+
+def SelectCompleteTodayCount():
+    SQL = "SELECT Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr " 
+    SQL += "WHERE jr.Job_Status = 2 AND jr.End_Date  = DATE('now');"
+    return SQL
+
+
+def SelectCompleteThisWeekCount():
+    SQL = "SELECT Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr " 
+    SQL += "WHERE jr.Job_Status = 2 AND jr.End_Date  >= date('now', 'weekday 1', '-7 days');"
+    return SQL
+
+
+def SelectCompleteThisMonthCount():
+    SQL = "SELECT Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr " 
+    SQL += "WHERE jr.Job_Status = 2 AND jr.End_Date  >= date('now','start of month');"
+    return SQL
+
+
 def  SelectLastJobRecord():
     SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
     return SQL
@@ -33,49 +52,50 @@ def SelectActiveOperators():
 
 
 
-# -----------------------------------INSERT SATEMENTS-----------------------------------------------------------
+# -----------------------------------INSERT STATEMENTS-----------------------------------------------------------
 
 
 def InsertIntoJobRecord(newRecord):
 
-    job   = newRecord['job']
-    WO    = newRecord['workOrder']
-    weig  = newRecord['jobWeight']
-    cell  = newRecord['workCell']
-    jtype = newRecord['jobType']
-    stat  = newRecord['jobStatus']
-    time  = newRecord['startTime']
-    note  = newRecord['notes']
-    test  = newRecord['inProcessTesting']
-    PA    = newRecord['preAdjustments']
-    tops  = newRecord['totalOperatiions']
-    date  = newRecord['startDate']
-    last  = newRecord['lastOperation']
+    job   = str(newRecord['job'])
+    WO    = str(newRecord['workOrder'])
+    weig  = str(newRecord['jobWeight'])
+    cell  = str(newRecord['workCell'])
+    jtype = str(newRecord['jobType'])
+    stat  = str(newRecord['jobStatus'])
+    time  = str(newRecord['startTime'])
+    note  = str(newRecord['notes'])
+    test  = str(newRecord['inProcessTesting'])
+    PA    = str(newRecord['preAdjustments'])
+    tops  = str(newRecord['totalOperatiions'])
+    date  = str(newRecord['startDate'])
+    last  = str(newRecord['lastOperation'])
 
     SQL = "INSERT INTO Job_Record (Job, Work_Order, Job_Weight, Work_Cell, Job_Type, Job_Status, "
     SQL += "Start_Time, Notes, 'In-Process_Testing', Pre_Adjustment, Total_Operations, Start_Date, Last_Operation) "
-    SQL += "VALUES( " 
-    SQL += job + ", " + WO + ", " + weig + ", " + cell + ", " + jtype + ", " + stat + ", " + note + ", " 
-    SQL += time + ", " + PA + ", " + tops + ", " + date + ", " + last + ");"
+    SQL += "VALUES( '" 
+    SQL += job + "', '" + WO + "', '" + weig + "', '" + cell + "', '" + jtype + "', '" + stat + "', '" + note + "', '" 
+    SQL += time + "', '" + test + "', '" + PA + "', '" + tops + "', '" + date + "', '" + last + "');"
     return SQL
 
 
 
 def InsertIntoActivity(newRecord,JobIndex):
 
-    oper  = newRecord['operator']
-    acti  = newRecord['Activity']
-    date  = newRecord['startDate']
-    last  = newRecord['lastOperation']
-    time  = newRecord['startTime']
-    
+    oper  = str(newRecord['operator'])
+    acti  = str(newRecord['Activity'])
+    date  = str(newRecord['startDate'])
+    last  = str(newRecord['lastOperation'])
+    time  = str(newRecord['startTime'])
+    JobIndex = str(JobIndex)
+
     SQL = "INSERT INTO Activity(Operator, Activity, Activity_Date, Job_Id, Operation, Activity_Time) "
-    SQL += "VALUES( " 
-    SQL += oper + ", " + acti + ", " + date + ", " + JobIndex + ", " + last + ", " + time +");"
+    SQL += "VALUES( '" 
+    SQL += oper + "', '" + acti + "', '" + date + "', '" + JobIndex + "', '" + last + "', '" + time +"');"
     return SQL
 
 
-# -----------------------------------UPDATE SATEMENTS-----------------------------------------------------------
+# -----------------------------------UPDATE STATEMENTS-----------------------------------------------------------
 
 
-# -----------------------------------DELETE SATEMENTS-----------------------------------------------------------
+# -----------------------------------DELETE STATEMENTS-----------------------------------------------------------

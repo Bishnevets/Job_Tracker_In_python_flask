@@ -24,9 +24,19 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
 
-    
+    runningJobs = DB.RunningJobsCount()
+    dayCount = DB.getJobsCompleteToday()
+    weekCount = DB.getJobsCompleteThisWeek()
+    monthCount = DB.getJobsCompleteThisMonth()
 
-    return render_template('index.html')
+    output = {
+        'runningJobs' : runningJobs,
+        'dayCount' : dayCount,
+        'weekCount' : weekCount,
+        'monthCount' : monthCount
+    }
+
+    return render_template('index.html', output=output)
 
 
 
