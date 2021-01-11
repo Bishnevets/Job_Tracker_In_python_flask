@@ -32,6 +32,9 @@ a:visited{
     background: #384961;
 /*    background: #ad3f89;*/
     height: 70px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 }
 
 
@@ -50,6 +53,8 @@ a:visited{
     height: auto;
     display: flex;
     flex-grow: 1;
+    position: relative;
+   
 }
 
 
@@ -60,6 +65,9 @@ a:visited{
     background: #475c7a;
     width: 200px;
     color:#E1E6FA;
+    position:fixed;
+    height: 100%;
+    top:70px;
 }
 
 .nav h2{
@@ -114,8 +122,15 @@ margin-bottom: 16px;
     width: 80%;
     margin: 0 auto;
     padding-left: 5px;
+   
 }
 
+.content{
+    position: relative;
+    left: 100px;
+    top: 100px;
+    overflow-x: hidden;
+}
 
 .content_message{
     font-family: 'Courier New', monospace;
@@ -179,15 +194,15 @@ margin-bottom: 20px;
 
 
 /* New Job Form Styles */
-
+.start-heading{
+    font-family: 'Courier New', Courier, monospace;
+}
 .start-job-form{
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
-    /* background-color: #bbaec5; */
-    /* background-color: #384961; */
+    background-color: #f5f5f5;
     color: #535151;
     padding: 20px;
-    border-radius: 25px;
 }
 .form-col-wrap{
     display: flex;
@@ -293,44 +308,50 @@ fieldset h3{
     color: #f2f2f2;
 }
 
-td{
+.runningJobs td{
     width: auto;
     min-width: 125px;
     height: 50px;
 }
 
 
- thead tr, tr:nth-child(even){background-color: #f2f2f2;}
+.runningJobs thead tr, .runningJobs tr:nth-child(even){background-color: #f2f2f2;}
 
 
- th,td{
+.runningJobs th, .runningJobs td{
     padding: 8px 5px;
   }
 
 
 
-th{
+  .runningJobs th{
     vertical-align: bottom;
     text-transform: uppercase;
     letter-spacing: .1em;
 }
 
-.tbl-link{
+ .table-sub-button{
     background: #475c7a;
     text-align: center;
+    border:none;
+    color: #f5f5f5;
+    padding: 5px;
+    height: 40px;
+    width: 120px;
 }
 
-.tbl-link a{
-    display: inline-block;
-    margin: 0 auto;
-    width: 100%;
+.tbl-link{
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.tbl-link:hover{
- background: #4E6687;
+.table-sub-button:hover{
+    background: #67c45f;
+    /* color:#384961; */
+    transition-duration: .25s;
 }
-
-
 
 
 
@@ -338,6 +359,81 @@ th{
     height: 100px;
     background: #f5f5f5;
 }
+
+
+.job-details-update tr td p{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3em;
+    padding: 0;
+}
+
+.job-details-update tr td{
+    height: 20px;
+    padding: 0;
+}
+
+.jdu-label{
+    font-weight:bolder;
+    text-align: left;
+}
+
+.jdu-value p{
+    margin-left: 50px;   
+}
+
+
+
+.details-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background: #f5f5f5;
+    padding: 16px;
+}
+
+
+
+.jdu-col-right{
+    width: auto;
+}
+
+
+.jdu-col-left{
+    width: auto;
+}
+
+.timestamp{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+    padding: 0;
+    text-align: center;
+}
+
+.jdu-col-right form{
+    width: 600px;
+}
+
+.radio-wrap{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.radio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.next_op{
+    position: relative;
+    left: 8px;
+}
+
+
+
+
 
 
 

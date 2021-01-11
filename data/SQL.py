@@ -62,6 +62,34 @@ def SelectRunningJobList():
     return SQL
     
 
+def SelectJobToUpdate(jobID):
+
+    jobID = str(jobID)
+    SQL = "SELECT "
+    SQL += "jr.Job_ID, "
+    SQL += "jr.Job, "
+    SQL += "jr.Work_Order, "
+    SQL += "wc.Cell, "
+    SQL += "jr.Work_Cell, "
+    SQL += "js.Status, "
+    SQL += "jr.Job_Status, "
+    SQL += "jc.'Type', "
+    SQL += "jr.Job_Type, "
+    SQL += "Job_Weight, "
+    SQL += "MAX(a.Activity_ID) AS [Activity ID], "
+    SQL += "o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+    SQL += "o.Operator_ID, "
+    SQL += "a.Operation, "
+    SQL += "jr.Notes, "
+    SQL += "a.Activity_Date ||' '|| a.Activity_Time AS [Last Activity] "
+    SQL += "FROM Job_Record jr "
+    SQL += "JOIN Activity a on a.Job_Id = jr.Job_ID "
+    SQL += "JOIN Job_Categories jc on jc.Type_ID = jr.Job_Type "
+    SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+    SQL += "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+    SQL += "JOIN Operators o On a.Operator = o.Operator_ID " 
+    SQL += "WHERE jr.Job_ID = ('" + jobID + "'); "
+    return SQL
 
 
 # -----------------------------------INSERT STATEMENTS-----------------------------------------------------------

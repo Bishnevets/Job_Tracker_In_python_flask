@@ -9,7 +9,7 @@
     <div class='table-header'>
         <h2>Running Jobs</h2>    
    </div>
-        <table>
+        <table class="runningJobs">
            <thead>
             <tr>
                 <th></th>
@@ -27,7 +27,13 @@
                 <tbody>
                     {% for job in jobs  %}
                     <tr>
-                        <td class="tbl-link"><a href="">Advance</a></td>
+                    <td class="tbl-link">
+                        <form action="" method="POST">
+                            <input class="table-sub-button" type="submit" name="" value='Update Job'/>
+                            <input type="hidden" name="JobID" value="{{job['jobID']}}" />
+                        </form>
+                        
+                    </td>
                         <td>{{job['job']}}</td>
                         <td>{{job['workorder']}}</td>
                         <td>{{job['cell']}}</td>
@@ -51,25 +57,3 @@
       {% endblock %}
 
 
-
-
-      <!-- <tr>
-        <td class="tbl-link"><a href="">Advance</a></td>
-        <td>X-506-80-C</td>
-        <td>265060</td>
-        <td>Ross 100</td>
-        <td>In Progress</td>
-        <td>290 KG</td>
-        <td>Steve Bishop</td>
-        <td>2021-09-01 10:42 PM</td>
-    </tr>
-    <tr>
-        <td class="tbl-link"><a href="">Advance</a></td>
-        <td>X-506-80-C</td>
-        <td>265060</td>
-        <td>Ross 100</td>
-        <td>In Progress</td>
-        <td>290 KG</td>
-        <td>Steve Bishop</td>
-        <td>2021-09-01 10:42 PM</td>
-    </tr> -->

@@ -109,6 +109,18 @@ def getRunningJobsList():
 
 
 
+def setUpdateForm(JobID):
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectJobToUpdate(JobID)
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ import os
 import csv
 from data import DB
 from datetime import datetime
+from flask.helpers import url_for
 
 
 # web application instance
@@ -42,6 +43,40 @@ def index():
 
 
 
+@app.route("/update_job/<jobID>")
+def updateJob(jobID):
+    
+    oplist = DB.getActiveOperators()
+    typeList = DB.getJobType()
+    workcellList = DB.getWorkCells()
+    result = DB.setUpdateForm(jobID)
+    job = {
+    'job ID': result[0][0],
+    'job name': result[0][1],
+    'work order': result[0][2],
+    'cell': result[0][3],
+    'cell ID': result[0][4],
+    'status': result[0][5],
+    'status ID': result[0][6],
+     'type': result[0][7],
+    'type ID': result[0][8],
+    'weight': result[0][9],
+    'activity ID' : result[0][10],
+    'operator': result[0][11],
+    'operator ID': result[0][12],
+    'last op': result[0][13],
+    'notes': result[0][14],
+    'last activity': result[0][15],
+    }
+
+
+
+    return render_template('update_job.html',job=job, oplist=oplist)
+
+
+
+
+
 @app.route("/runningjobs/", methods=['POST','GET'])
 def runningJobs():
     jobList = DB.getRunningJobsList()
@@ -57,13 +92,20 @@ def runningJobs():
             'operator':job[7],
             'timestamp':job[8],})
 
+    if request.method == 'POST':
+        errors = False
+        
+        if not request.form['JobID']:
+            errors = True
+
+        if not errors:
+
+            jobID = request.form['JobID']
+            return redirect(url_for('updateJob', jobID=jobID))
+        else:
+            return render_template('runningjobs.html', jobs=jobs)
+
     return render_template('runningjobs.html', jobs=jobs)
-
-
-
-
-
-
 
 
 
@@ -144,6 +186,10 @@ def newJobform():
         
 
     return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
+
+
+
+
 
 
 
