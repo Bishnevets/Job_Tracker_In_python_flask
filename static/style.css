@@ -22,7 +22,9 @@ body{
 a{
     text-decoration: none;
 }
-a:visited{
+
+
+.nav a:visited{
     color: #f5f5f5 !important
 }
 
@@ -31,19 +33,132 @@ a:visited{
 .header_area{
     background: #384961;
 /*    background: #ad3f89;*/
-    height: 70px;
+    height: 80px;
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
+
+.header_logo_container{
+    flex-grow: 1;
+}
+
+.header_logo_container img{
+    height: 70px;
+}
+
 
 
 .header_text h1{
-    margin-top: 0;
-    padding: 16px ;
-    color:#f5f5f5;
-    text-align: center;
+    margin-top: 20px;
+    padding-right: 70px;
+    color:#e4e3e3;
+    font-family: 'Courier New', Courier, monospace;
 }
+
+
+/* Header SUB NAV */
+
+
+.sub-nav-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    color: #e4e3e3;
+    position: fixed;
+    z-index: 3;
+    left: 200px;
+    height: 70px;
+    top:80px;
+    width: 100%;
+  }
+
+
+.sub-nav-heading-container{
+    background-color: #f5f5f5;
+    color:#4d4141;
+    width: 200px;
+  }
+
+  .sub-nav-heading-header{
+    font-weight: bolder;
+    font-size: 1em;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  
+  .sub-nav{
+    width: 60%;
+  }
+
+  .sub-nav ul{
+    display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    margin: 0;
+  }
+
+  .sub-nav ul li{
+    min-width: 120px;
+    text-align: center;
+  }
+  
+  .sub-nav ul li a{
+    color: #9f9494;
+    font-size: 1.3em;
+  }
+
+
+  li.active {
+    border-bottom: #3c387d 8px solid;
+  }
+  
+  a{
+    text-decoration: none;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -128,7 +243,7 @@ margin-bottom: 16px;
 .content{
     position: relative;
     left: 100px;
-    top: 100px;
+    top: 170px;
     overflow-x: hidden;
 }
 
@@ -193,44 +308,180 @@ margin-bottom: 20px;
 }
 
 
+
+
+
+
 /* New Job Form Styles */
-.start-heading{
-    font-family: 'Courier New', Courier, monospace;
-}
+
 .start-job-form{
-    width: 85%;
     margin: 0 auto;
     background-color: #f5f5f5;
     color: #535151;
-    padding: 20px;
 }
+
+
 .form-col-wrap{
     display: flex;
     flex-wrap: wrap;
     /* background: red; */
-    justify-content: space-around;
+    justify-content: center;
+    min-width: 600px;
+    padding: 10px;
 }
 
 
-.field-wrap{
+
+.form-col-left{
+width:500px;
+display: flex;
+}
+
+.form-col-right{
+flex-grow: 1;
+display: flex;
+flex-direction: column;
+}
+
+.form-col-right div{
+    margin: 15px 0;
+}
+
+
+/* left side form */
+
+.form-table-input-block{
+
+}
+
+.form-table-input-block td{     
+padding: 14px 0 14px 20px;
+}
+
+.form-label{
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding-right: 20px;
+}
+
+.form-input input, .form-input select {
+    min-width: 220px;
+    height: 32px;
+    font-size: 1em;
+}
+/* right side of form */
+
+
+.ckbx-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.ckbx-heading,.ckbx-input-set{
+    width: 80%;
+}
+
+.ckbx-heading{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.ckbx-input-set{
+    display: flex;
+    justify-content: space-evenly;
+   
+}
+
+.ckbx-input-set div{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2em;
+}
+
+
+.note-wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.note-wrap label{
+    font-size: 1.4em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.note-wrap textarea{
+    font-size: 1.2em;
+    height: 125px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.fw-submit{
+    display: flex;
+    justify-content: center;
+}
+
+.field-wrap .submit{
+    width: 200px;
+    margin: 30px 0;
+    height: 48px;
+    border: none;
+    background: #74da7d;
+    color: #f5f5f5;
+    font-size: 18px;
+}
+
+.field-wrap .submit:hover{
+    background: #65BF6D;
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* label.w200{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+} */
+
+/* .field-wrap{
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 
-}
+} */
 
 
-label,input,select{
+/* label,input,select{
     font-size: 18px;
     height: 36px;
-   
-}
+} */
 
-.w200{
-    min-width: 300px;
-} 
+/* .w200{
+    min-width: 200px;
+}  */
 
-.field-wrap .submit{
+/* .field-wrap .submit{
     width: 200px;
     align-self: center;
     margin-top: 50px;
@@ -238,25 +489,25 @@ label,input,select{
     border: none;
     background: #74da7d;
     color: #f5f5f5;
-}
+} */
 
-.field-wrap .submit:hover{
+/* .field-wrap .submit:hover{
     background: #65BF6D;
-}
+} */
 
-.notes{
+/* .notes{
     height: 230px;
     font-size: 18px;
-}
+} */
 
-.ckbx{
+/* .ckbx{
 position: relative;
 top: 15px;
 width: 20px;
 margin-left: 100px;
-}
+} */
 
-fieldset h3{
+/* fieldset h3{
     text-align: center;
 }
 
@@ -265,7 +516,7 @@ fieldset h3{
     padding-top: 35px;
     flex-grow: 1;
     margin: 0 40px;
-}
+} */
 
 /*
 .footer_area{
@@ -430,8 +681,6 @@ fieldset h3{
     position: relative;
     left: 8px;
 }
-
-
 
 
 

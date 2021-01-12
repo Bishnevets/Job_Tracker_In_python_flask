@@ -2,17 +2,18 @@
     {% extends "layout.html"%}
 
 
-    {% block body%}   
+    {% block body%}
+ 
         <div class="content_message">
-            <P>Today is: Monday January 3, 2021</P>
+            <P>Today is: {{today}}</P>
             <P>We are Open for Business</P>
         </div>
 
        
-
+<!-- 
         <div class="op_control">
             <div class="control_btn"><a href="/new_job">Start New Job</a></div>
-        </div>
+        </div> -->
 
 
         {% include "dashboxset.html" %}

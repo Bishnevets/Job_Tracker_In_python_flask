@@ -5,7 +5,7 @@ import csv
 from data import DB
 from datetime import datetime
 from flask.helpers import url_for
-
+import calendar
 
 # web application instance
 app = Flask(__name__)
@@ -24,7 +24,8 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
+    page = "Dashboard"
+    today = 'Monday June 34, 2021'
     runningJobs = DB.RunningJobsCount()
     dayCount = DB.getJobsCompleteToday()
     weekCount = DB.getJobsCompleteThisWeek()
@@ -37,7 +38,7 @@ def index():
         'monthCount' : monthCount
     }
 
-    return render_template('index.html', output=output)
+    return render_template('index.html', output=output, page=page, today=today)
 
 
 
@@ -45,7 +46,7 @@ def index():
 
 @app.route("/update_job/<jobID>")
 def updateJob(jobID):
-    
+    page = "Update job"
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
     workcellList = DB.getWorkCells()
@@ -71,7 +72,7 @@ def updateJob(jobID):
 
 
 
-    return render_template('update_job.html',job=job, oplist=oplist)
+    return render_template('update_job.html',job=job, oplist=oplist, page=page)
 
 
 
@@ -79,6 +80,7 @@ def updateJob(jobID):
 
 @app.route("/runningjobs/", methods=['POST','GET'])
 def runningJobs():
+    page = "Running Jobs"
     jobList = DB.getRunningJobsList()
     jobs = []
     for job in jobList:
@@ -103,20 +105,22 @@ def runningJobs():
             jobID = request.form['JobID']
             return redirect(url_for('updateJob', jobID=jobID))
         else:
-            return render_template('runningjobs.html', jobs=jobs)
+            return render_template('runningjobs.html', jobs=jobs, page=page)
 
-    return render_template('runningjobs.html', jobs=jobs)
+    return render_template('runningjobs.html', jobs=jobs, page=page)
 
 
 
 @app.route("/new_job_success/", methods=['POST','GET'])
 def jobSuccess():
-    return render_template('new_job_success.html')
+    page = "Job Added"
+    return render_template('new_job_success.html', page=page)
 
 
 
 @app.route("/new_job/", methods=['POST','GET'])
 def newJobform():
+    page = 'Start Job'
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
     workcellList = DB.getWorkCells()
@@ -179,13 +183,14 @@ def newJobform():
                 'Activity' : 4 #the value 4 represents 'starting' from the Activity_Action table
             }
             DB.startJob(newRecord)
-            return  render_template('new_job_success.html',newRecord=newRecord)
+            page = "Job Added"
+            return  render_template('new_job_success.html',newRecord=newRecord, page=page)
            
         else:
-            return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
+            return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList, page=page)
         
 
-    return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList)
+    return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList, page=page)
 
 
 
