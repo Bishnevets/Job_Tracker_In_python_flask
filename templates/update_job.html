@@ -47,31 +47,6 @@
             <div class="jdu-col-right">
                 <form class="update-job"action="" method="POST">
 
-                    <!-- 
-                    <div class="field-wrap">
-                        <label>Operator<span class="req">*</span></label>
-                        <select name="operator" value="">
-                            <option value="{{job['operator ID']}}" selected='selected'>{{job['operator']}}</option>
-                            {% for op in oplist %}
-                            <option value="{{op[0]}}">{{op[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div> 
-                    -->
-                    <!-- 
-                    <div class="field-wrap">
-                        <label class="w200" >Next Operation Number<span class="req">*</span></label>
-                        <select class="w200"  name="total_operations">
-                            <option value="{{job['last op']}}">{{job['last op']}}</option>
-                                {% for x in range(10) %}
-                                    {% if x!=0 %}
-                                        <option value="{{x * 10}}">{{x * 10}}</option>
-                                    {% endif %}
-                                {% endfor %}               
-                        </select>
-                    </div> 
-                    -->
-                    
                         <fieldset>
                             
                             <legend>Select Operation</legend>
@@ -106,38 +81,43 @@
                    
                     
                     
-                    <div class="field-wrap">
+                    <div class="field-wrap note-wrap">
                         <label for="notes">Operator Notes</label>
                         <textarea class="notes" name ='notes' id="notes" autocomplete="off">{{job['notes']}}</textarea>
                     </div> 
-                    
-                    <div class="field-wrap">
-                       <P class="next_op"><label class="w200" >Next Operator: </label>
-                        <select class="w200"  name="operator" value="">
-                            <option value="{{job['operator ID']}}" selected='selected'>{{job['operator']}}</option>
-                            {% for op in oplist %}
-                            <option value="{{op[0]}}">{{op[1]}}</option>
-                            {% endfor %}
-                        </select>
-                       </P>
 
-                       <p>
-                        <label class="w200" >Next Operation: </label>
-                        <select class="w200"  name="total_operations">
-                            <option value="{{job['last op']}}">{{job['last op']}}</option>
-                                {% for x in range(10) %}
-                                    {% if x!=0 %}
-                                        <option value="{{x * 10}}">{{x * 10}}</option>
-                                    {% endif %}
-                                {% endfor %}               
-                        </select>
-                        </p>
 
-                        <input class="submit" type="submit" name="Start_new_job" value="Update Job">
 
-                    </div> 
-                    
-
+                    <table class="form-table-input-block">
+                        <tr>
+                            <td class="form-label"><label>Next Operator: </label></td>
+                            <td class="form-input">
+                                <select name="operator" value="">
+                                    <option value="{{job['operator ID']}}" selected='selected'>{{job['operator']}}</option>
+                                    {% for op in oplist %}
+                                    <option value="{{op[0]}}">{{op[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-label"><label>Next Operation: </label> </td>
+                            <td class="form-input">
+                                <select name="total_operations">
+                                    <option value="{{job['last op']}}">{{job['last op']}}</option>
+                                        {% for x in range(10) %}
+                                            {% if x!=0 %}
+                                                <option value="{{x * 10}}">{{x * 10}}</option>
+                                            {% endif %}
+                                        {% endfor %}               
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                        <div class="field-wrap fw-submit">
+                            <input class="submit" type="submit" name="Start_new_job" value="Update Job">
+                        </div>
+                        
                 </form>
             </div>
         </div>

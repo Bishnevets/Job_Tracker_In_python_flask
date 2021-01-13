@@ -3,12 +3,25 @@
     {% block body%}
 
 
-  
+   <div class='table-header'>
+     <div>
+        <form action="">
+        <label for="filter1">Job Name: </label>
+        <input type="text" id='filter1'>   
+     </div>   
+     <div>
+        <label for="filter1">Work order : </label>
+        <input type="text" id='filter1'>   
+     </div>   
+     <div>
+        <label for="filter1">Operator: </label>
+        <input type="text" id='filter1'>   
+     </div>
+    </form>   
+   </div>
 
    <div class="table-wrap">	
-    <div class='table-header'>
-        <h2>Running Jobs</h2>    
-   </div>
+   
         <table class="runningJobs">
            <thead>
             <tr>
@@ -32,8 +45,8 @@
                             <input class="table-sub-button" type="submit" name="" value='Update Job'/>
                             <input type="hidden" name="JobID" value="{{job['jobID']}}" />
                         </form>
-                        
                     </td>
+                    
                         <td>{{job['job']}}</td>
                         <td>{{job['workorder']}}</td>
                         <td>{{job['cell']}}</td>
@@ -46,8 +59,10 @@
                  {% endfor %}  
                 </tbody>
             </div><!-- End table body  -->
-        </table>          
+        </table>
+                
 </div>
+<div class="table-footer"></div>
 
 <!-- <div class="table-footer"></div> 
      -->

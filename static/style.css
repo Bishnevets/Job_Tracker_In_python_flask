@@ -8,15 +8,17 @@
 html,body{
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body{
-    background: #E1E6FA;
+    background: #475c7a;
     display: flex;
     flex-direction: column;
+    position: relative;
+    bottom: 24px;
 }
 
 a{
@@ -25,7 +27,7 @@ a{
 
 
 .nav a:visited{
-    color: #f5f5f5 !important
+    color: #f5f5f5
 }
 
 
@@ -40,6 +42,7 @@ a{
     display: flex;
     justify-content: end;
     align-items: center;
+    top:10px
 }
 
 .header_logo_container{
@@ -71,9 +74,9 @@ a{
     color: #e4e3e3;
     position: fixed;
     z-index: 3;
-    left: 200px;
     height: 70px;
     top:80px;
+    left: 0;
     width: 100%;
   }
 
@@ -177,12 +180,12 @@ a{
 /*nav styles*/
 
 .nav{
-    background: #475c7a;
+    background: #384961;
     width: 200px;
     color:#E1E6FA;
     position:fixed;
     height: 100%;
-    top:70px;
+    top:150px;
 }
 
 .nav h2{
@@ -211,26 +214,6 @@ background: #875C77;
 }
 
 
-.op_control{
-    display: flex;
-    justify-content: flex-start;
-}
-.control_btn{
-margin-bottom: 16px;
-}
-
-.control_btn a{
-    display: inline-block;
-    background: #5791d8;
-
-    padding: 1em;
-    color: #f5f5f5;
-}
-
-.control_btn a:hover{
-    background: #5C9AE6;
-}
-
 
 /*Content area styles*/
 .content-wrapper{
@@ -245,38 +228,51 @@ margin-bottom: 16px;
     left: 100px;
     top: 170px;
     overflow-x: hidden;
+    height: 100%;
 }
 
 .content_message{
-    font-family: 'Courier New', monospace;
+    font-family:'Courier New', Courier, monospace;
     font-size: 24px;
-    
-    margin-left: 10px
+    margin-left: 2px;
+    font-weight: 500;
+    color: #f5f5f5;
 }
 
 
 /*Box styles*/
-
 .box{
-    background: #475c7a;
+    display: flex;
+    flex-direction: column;
     height: 200px;
-    width: 300px;
-    
+    width: 275px;
+    justify-content: center;
 }
 
-.box:hover{
-    background: #4E6687;
+
+
+.box_heading{
+    background:#f5f5f5;
+    height: 70px;
+}
+
+.box_value{
+    background: #fff;
+    flex-grow: 1;
 }
 
 .box_heading h1{
-    color: whitesmoke;
+    font-family:'Courier New', Courier, monospace;
+    color: #4d4141;
     text-align: center;
     font-size: 36px;
+    margin-top: 16px;
 }
 
 
 .box_value h1{
-    color: whitesmoke;
+    color: #9f9494;
+    color: #4d4141;
     text-align: center;
     font-size: 48px;
 }
@@ -287,6 +283,7 @@ margin-bottom: 16px;
 
 .box_row{
     width: 100%;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -301,11 +298,11 @@ margin-bottom: 20px;
     margin: 24px auto;
 }
 
-.content{
+/* .content{
     background-image: url(images/gear.png);
     background-attachment: fixed;
     background-size: cover;
-}
+} */
 
 
 
@@ -327,9 +324,10 @@ margin-bottom: 20px;
     /* background: red; */
     justify-content: center;
     min-width: 600px;
-    padding: 10px;
-}
+    padding: 36px;
+    margin-top: 50px;
 
+}
 
 
 .form-col-left{
@@ -341,10 +339,11 @@ display: flex;
 flex-grow: 1;
 display: flex;
 flex-direction: column;
+margin-top: 8px;
 }
 
 .form-col-right div{
-    margin: 15px 0;
+    margin: 8px 0;
 }
 
 
@@ -399,6 +398,11 @@ padding: 14px 0 14px 20px;
    
 }
 
+.ckbx{
+    position: relative;
+    top: 15px;
+    }
+
 .ckbx-input-set div{
     display: flex;
     flex-direction: column;
@@ -409,6 +413,7 @@ padding: 14px 0 14px 20px;
 .note-wrap{
     display: flex;
     flex-direction: column;
+    margin: 25px 0;
 }
 
 .note-wrap label{
@@ -422,6 +427,8 @@ padding: 14px 0 14px 20px;
     height: 125px;
     font-family: 'Courier New', Courier, monospace;
 }
+
+
 
 
 .fw-submit{
@@ -450,108 +457,56 @@ padding: 14px 0 14px 20px;
 
 
 
-
-
-
-
-
-
-
-
-
-/* label.w200{
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-} */
-
-/* .field-wrap{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-
-} */
-
-
-/* label,input,select{
-    font-size: 18px;
-    height: 36px;
-} */
-
-/* .w200{
-    min-width: 200px;
-}  */
-
-/* .field-wrap .submit{
-    width: 200px;
-    align-self: center;
-    margin-top: 50px;
-    height: 48px;
-    border: none;
-    background: #74da7d;
-    color: #f5f5f5;
-} */
-
-/* .field-wrap .submit:hover{
-    background: #65BF6D;
-} */
-
-/* .notes{
-    height: 230px;
-    font-size: 18px;
-} */
-
-/* .ckbx{
-position: relative;
-top: 15px;
-width: 20px;
-margin-left: 100px;
-} */
-
-/* fieldset h3{
-    text-align: center;
-}
-
-
-.form-col-right{
-    padding-top: 35px;
-    flex-grow: 1;
-    margin: 0 40px;
-} */
-
-/*
-.footer_area{
-    height: auto;
-    background: #685D79;
-    
-}
-*/
-
-
-
-
-
-
-
-
 /* Table Styles */
 .table-wrap{
     background: #fff;
-    margin: 20px auto;
-    border-radius: 6px;
-    max-width: 1230px;
-    overflow-x: auto;
-    max-height: 600px;
+    margin: 70px auto 0 auto;
+    max-width: 1200px;
+    overflow-y: scroll;
+    max-height: 500px;
+    position: sticky;
+    z-index: 2;
 }
 
 
 .table-header{
     display: flex;
-    padding: 5px;
-    min-width: 900px;
+    width: 100%;
     background: #475c7a;
     overflow-x: auto;
+    position: absolute;
+    justify-content: space-evenly;
+    color:#F2F2F2;
+    height: 70px;
+    align-items: self-end;
 }
 
+
+.table-header div{
+   padding-bottom: 5px;
+}
+
+.table-header div label{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3em;
+    font-weight: 400;
+}
+.table-header div input{
+height: 24px;
+font-size: 1.3em;
+width: 200px;
+}
+
+
+.table-footer{
+    background-color: #f2f2f2;
+    height: 70px;
+    max-width: 1140px;
+    position: relative;
+    left:35px;
+    border-radius: 0 0 5px 5px ;
+    display: none;
+}
 
 .table-header h2{
     margin-right: 16px;
@@ -589,6 +544,7 @@ margin-left: 100px;
     padding: 5px;
     height: 40px;
     width: 120px;
+    font-size: 16px;
 }
 
 .tbl-link{
@@ -606,16 +562,12 @@ margin-left: 100px;
 
 
 
-.table-footer{
-    height: 100px;
-    background: #f5f5f5;
-}
-
 
 .job-details-update tr td p{
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.3em;
-    padding: 0;
+    padding: 16px;
+    margin: 0;
 }
 
 .job-details-update tr td{
@@ -634,23 +586,38 @@ margin-left: 100px;
 
 
 
+.jdu-label p {
+    text-align: right;
+    }
+    
+
+
 .details-wrap{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     background: #f5f5f5;
     padding: 16px;
+    margin-top: 40px;
+    min-height: 489px;
+
 }
 
 
 
 .jdu-col-right{
-    width: auto;
+    /* width: 50%; */
+    flex-grow: 1;
+    max-width: 600px;
+    margin-right: 25px;
 }
 
-
 .jdu-col-left{
-    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
 }
 
 .timestamp{
@@ -661,7 +628,7 @@ margin-left: 100px;
 }
 
 .jdu-col-right form{
-    width: 600px;
+    width: auto;
 }
 
 .radio-wrap{
@@ -677,11 +644,18 @@ margin-left: 100px;
 }
 
 
-.next_op{
-    position: relative;
-    left: 8px;
+.notes{
+    height: 230px;
+    font-size: 18px;
 }
 
+
+/*use on running jobs table */
+/* 
+label,input,select{
+    font-size: 18px;
+    height: 36px;
+} */
 
 
 
