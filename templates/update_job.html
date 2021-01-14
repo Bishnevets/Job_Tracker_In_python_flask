@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                         <td class="jdu-label"><p>Last Operation:</p></td>
-                        <td class="jdu-value"><p>{{job['last op']}} Kg</p></td>
+                        <td class="jdu-value"><p>{{job['last op']}}</p></td>
                     </tr>
                 </table>
                 <div class="timestamp">
@@ -103,7 +103,7 @@
                         <tr>
                             <td class="form-label"><label>Next Operation: </label> </td>
                             <td class="form-input">
-                                <select name="total_operations">
+                                <select name="next-operation">
                                     <option value="{{job['last op']}}">{{job['last op']}}</option>
                                         {% for x in range(10) %}
                                             {% if x!=0 %}

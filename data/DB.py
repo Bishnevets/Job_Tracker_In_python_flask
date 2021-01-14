@@ -47,7 +47,7 @@ def startJob(newRecord):
     SQL = Q.SelectLastJobRecord()
     c.execute(SQL)
     JobIndex = c.fetchone()[0]
-    SQL = Q.InsertIntoActivity(newRecord,JobIndex)
+    SQL = Q.InsertInitnialActivity(newRecord,JobIndex)
     c.execute(SQL)
     conn.commit()
     end_connection(conn)
@@ -122,6 +122,32 @@ def setUpdateForm(JobID):
 
 
 
+def logActivity(details):
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.InsertActivity(details)
+    c.execute(SQL)
+    conn.commit()
+    end_connection(conn)
+    
+
+def updateJobRecord(details):
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.UpdateJobRecord(details)
+    c.execute(SQL)
+    conn.commit()
+    end_connection(conn)
+    return SQL
+
+#------------------------------------SPECIAL Functions----------------------------------------------------------
+
+# def truncateDate():
+#     conn = make_connection()
+#     c = conn.cursor()
+#     SQL = Q.SelectAllActivity()
+#     c.execute(SQL)
+#     items = c.fetchall()
 
 
 
@@ -136,32 +162,6 @@ def setUpdateForm(JobID):
 #    conn.commit()
 #    end_connection(conn)
 
-
-
-   
-    # conn = make_connection()
-    # c = conn.cursor()
-    # SQL = ""
-    #SQL += ""
-    # c.execute(SQL)
-    # items = c.fetchall()
-    # for item in items:
-    #     print(str(item))
-    # end_connection(conn)
-
-
-
-    # def add_one(first,last,email):
-#     conn = make_connection()
-#     c = conn.cursor()
-
-#     SQL = "INSERT INTO customers "
-#     SQL += "(first_name, last_name, email) "
-#     SQL += "VALUES(?,?,?);" #placeholder method
-
-#     c.execute(SQL,(first,last,email))
-#     conn.commit()
-#     end_connection(conn)
 
 
 

@@ -120,7 +120,7 @@ def InsertIntoJobRecord(newRecord):
 
 
 
-def InsertIntoActivity(newRecord,JobIndex):
+def InsertInitnialActivity(newRecord,JobIndex):
 
     oper  = str(newRecord['operator'])
     acti  = str(newRecord['Activity'])
@@ -135,7 +135,43 @@ def InsertIntoActivity(newRecord,JobIndex):
     return SQL
 
 
+
+def InsertActivity(details):
+
+    ID    = str(details['jobID'])
+    oper  = str(details['operator'])
+    acti  = str(details['activity'])
+    date  = str(details['date'])
+    last  = str(details['operation'])
+    time  = str(details['time'])
+
+    SQL = "INSERT INTO Activity(Operator, Activity, Activity_Date, Job_Id, Operation, Activity_Time) "
+    SQL += "VALUES( '" 
+    SQL += oper + "', '" + acti + "', '" + date + "', '" + ID + "', '" + last + "', '" + time +"');"
+    return SQL
+
+
 # -----------------------------------UPDATE STATEMENTS-----------------------------------------------------------
 
+def UpdateJobRecord(details):
+
+    ID    = str(details['jobID'])
+    status = str(details['status'])
+    notes = str(details['notes'])
+    endTime = str(details['time'])
+    endDate = str(details['date'])
+    lastOperation = str(details['operation'])
+
+    SQL = "UPDATE Job_Record "
+    SQL += "SET Job_Status='" + status + "', Notes='" + notes + "', End_Time='" + endTime + "', " 
+    SQL += "End_Date='" + endDate + "', Last_Operation='" + lastOperation + "' "
+    SQL += "WHERE Job_ID='" + ID + "';"
+    return SQL
 
 # -----------------------------------DELETE STATEMENTS-----------------------------------------------------------
+
+#------------------------------------SPECIAL STATEMENTS----------------------------------------------------------
+
+def SelectAllActivity():
+    Return = "SELECT * from Activity a"
+

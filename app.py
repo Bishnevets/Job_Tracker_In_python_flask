@@ -44,8 +44,9 @@ def index():
 
 
 
-@app.route("/update_job/<jobID>")
+@app.route("/update_job/<jobID>", methods=["GET", "POST"])
 def updateJob(jobID):
+   
     page = "Update job"
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
@@ -71,6 +72,48 @@ def updateJob(jobID):
     }
 
 
+    errors = True
+
+    if request.method == 'POST':
+        errors = False
+
+        if not request.form['action']:
+            errors = True
+        
+        if not request.form['operator']:
+            errors = True
+
+        if not request.form['next-operation']:
+            errors = True
+
+        if not errors:
+            
+            now = datetime.now()
+            time = now.strftime('%I:%M %p')
+            date = now.strftime('%m-%d-%Y')
+
+            details = {
+                'jobID': job['job ID'],
+                'status': request.form['action'],
+                'activity': request.form['action'],
+                'notes' : request.form['notes'],
+                'time' : time,
+                'date' : date,
+                'operation' : request.form['next-operation'],
+                'operator' : request.form['operator']
+            }
+            DB.logActivity(details)
+
+            if not(request.form['action'] == '2') and not(request.form['action'] == '5'):
+                time = ''
+                date = ''
+            
+            DB.updateJobRecord(details)
+
+        return redirect(url_for('updateJobSuccess'))
+
+    else:
+        return render_template('update_job.html',job=job, oplist=oplist, page=page)
 
     return render_template('update_job.html',job=job, oplist=oplist, page=page)
 
@@ -115,6 +158,12 @@ def runningJobs():
 def jobSuccess():
     page = "Job Added"
     return render_template('new_job_success.html', page=page)
+
+
+@app.route("/update_job_success/", methods=['POST','GET'])
+def updateJobSuccess():
+    page = "Job updated"
+    return render_template('update_job_success.html', page=page)
 
 
 
@@ -165,6 +214,11 @@ def newJobform():
             now = datetime.now()
             time = now.strftime('%I:%M %p')
             date = now.strftime('%m-%d-%Y')
+
+            notes = request.form['notes']
+            notes += 'Job Started' + "" + time + " " + date + "\n"
+            notes += "---------------------\n" 
+
             newRecord = {
                 'operator': request.form['operator'],
                 'job': request.form['job_name'],
@@ -175,7 +229,7 @@ def newJobform():
                 'totalOperatiions': request.form['total_operations'],
                 'inProcessTesting': ck_ipt,
                 'preAdjustments' : ck_pre,
-                'notes' : request.form['notes'],
+                'notes' : notes,
                 'jobStatus' : 1, # Job status is 'In Progress' as a starting condtion (job status table)
                 'startTime' : time,
                 'startDate' : date,
