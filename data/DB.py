@@ -108,6 +108,27 @@ def getRunningJobsList():
     return items
 
 
+def getCompletedJobsList():    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectCompletedJobList()
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
+
+
+
+def getOperatorByID(id):    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectOperatorByID(id)
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
+
+
 
 def setUpdateForm(JobID):
     conn = make_connection()
@@ -148,6 +169,17 @@ def updateJobRecord(details):
 #     SQL = Q.SelectAllActivity()
 #     c.execute(SQL)
 #     items = c.fetchall()
+
+
+def getNoteStringLength(id):    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectNotesByID(id)
+    c.execute(SQL)
+    items = c.fetchall()[0][0]
+    end_connection(conn)
+    return items
+
 
 
 

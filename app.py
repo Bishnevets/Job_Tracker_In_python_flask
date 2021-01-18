@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from markupsafe import escape
 import os
 import csv
-from data import DB
+from data import DB, util
 from datetime import datetime
 from flask.helpers import url_for
 import calendar
@@ -11,16 +11,17 @@ import calendar
 app = Flask(__name__)
 
 
-#database setup using sqlalchemy --change the database name accordingly
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-#db = SQLAlchemy(app)
-
-#-------------------------Alchemy Models--------------------------------------- 
-
-#-------------------------lists and veriables--------------------------------------- 
+#----------------------------------------lists and veriables--------------------------------------------- 
 
 
-#-------------------------routing--------------------------------------- 
+#--------------------------------------------------------------------------------------------------------
+# ----------------------------------------------ROUTING--------------------------------------------------
+#  ------------------------------------------------------------------------------------------------------
+
+
+
+# -------------------------------------DASHBOARD ROUTE----------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -44,81 +45,14 @@ def index():
 
 
 
-@app.route("/update_job/<jobID>", methods=["GET", "POST"])
-def updateJob(jobID):
-   
-    page = "Update job"
-    oplist = DB.getActiveOperators()
-    typeList = DB.getJobType()
-    workcellList = DB.getWorkCells()
-    result = DB.setUpdateForm(jobID)
-    job = {
-    'job ID': result[0][0],
-    'job name': result[0][1],
-    'work order': result[0][2],
-    'cell': result[0][3],
-    'cell ID': result[0][4],
-    'status': result[0][5],
-    'status ID': result[0][6],
-     'type': result[0][7],
-    'type ID': result[0][8],
-    'weight': result[0][9],
-    'activity ID' : result[0][10],
-    'operator': result[0][11],
-    'operator ID': result[0][12],
-    'last op': result[0][13],
-    'notes': result[0][14],
-    'last activity': result[0][15],
-    }
-
-
-    errors = True
-
-    if request.method == 'POST':
-        errors = False
-
-        if not request.form['action']:
-            errors = True
-        
-        if not request.form['operator']:
-            errors = True
-
-        if not request.form['next-operation']:
-            errors = True
-
-        if not errors:
-            
-            now = datetime.now()
-            time = now.strftime('%I:%M %p')
-            date = now.strftime('%m-%d-%Y')
-
-            details = {
-                'jobID': job['job ID'],
-                'status': request.form['action'],
-                'activity': request.form['action'],
-                'notes' : request.form['notes'],
-                'time' : time,
-                'date' : date,
-                'operation' : request.form['next-operation'],
-                'operator' : request.form['operator']
-            }
-            DB.logActivity(details)
-
-            if not(request.form['action'] == '2') and not(request.form['action'] == '5'):
-                time = ''
-                date = ''
-            
-            DB.updateJobRecord(details)
-
-        return redirect(url_for('updateJobSuccess'))
-
-    else:
-        return render_template('update_job.html',job=job, oplist=oplist, page=page)
-
-    return render_template('update_job.html',job=job, oplist=oplist, page=page)
 
 
 
+
+
+
+# -------------------------------------RUNNING JOBS ROUTE------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 
 
 @app.route("/runningjobs/", methods=['POST','GET'])
@@ -154,17 +88,58 @@ def runningJobs():
 
 
 
-@app.route("/new_job_success/", methods=['POST','GET'])
-def jobSuccess():
-    page = "Job Added"
-    return render_template('new_job_success.html', page=page)
 
 
-@app.route("/update_job_success/", methods=['POST','GET'])
-def updateJobSuccess():
-    page = "Job updated"
-    return render_template('update_job_success.html', page=page)
 
+
+# -------------------------------------Completed JOBS ROUTE------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
+
+
+@app.route("/completed_jobs/", methods=['POST','GET'])
+def completedJobs():
+    page = "Completed"
+    jobList = DB.getCompletedJobsList()
+    jobs = []
+    for job in jobList:
+        jobs.append({
+            'jobID':job[0],
+            'job':job[1],
+            'workorder':job[2],
+            'cell':job[3],
+            'status':job[4],
+            'weight':job[5],
+            'operator':job[7],
+            'timestamp':job[8],})
+
+    if request.method == 'POST':
+        errors = False
+        
+        if not request.form['JobID']:
+            errors = True
+
+        if not errors:
+
+            jobID = request.form['JobID']
+            return redirect(url_for('updateJob', jobID=jobID))
+        else:
+            return render_template('completed_jobs.html', jobs=jobs, page=page)
+
+    return render_template('completed_jobs.html', jobs=jobs, page=page)
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------------------NEW JOB ROUTE------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 
 
 @app.route("/new_job/", methods=['POST','GET'])
@@ -215,9 +190,10 @@ def newJobform():
             time = now.strftime('%I:%M %p')
             date = now.strftime('%m-%d-%Y')
 
+            alias = util.getUserAlias(request.form['operator'])
             notes = request.form['notes']
-            notes += 'Job Started' + "" + time + " " + date + "\n"
-            notes += "---------------------\n" 
+            addNote = util.appendTimeStamp(alias,notes,'Job Started')
+
 
             newRecord = {
                 'operator': request.form['operator'],
@@ -229,13 +205,15 @@ def newJobform():
                 'totalOperatiions': request.form['total_operations'],
                 'inProcessTesting': ck_ipt,
                 'preAdjustments' : ck_pre,
-                'notes' : notes,
+                'notes' : addNote,
                 'jobStatus' : 1, # Job status is 'In Progress' as a starting condtion (job status table)
                 'startTime' : time,
                 'startDate' : date,
                 'lastOperation': 10, #jobs start at operation 10
                 'Activity' : 4 #the value 4 represents 'starting' from the Activity_Action table
             }
+
+
             DB.startJob(newRecord)
             page = "Job Added"
             return  render_template('new_job_success.html',newRecord=newRecord, page=page)
@@ -249,11 +227,154 @@ def newJobform():
 
 
 
+#-------------------------------------NEW JOB SUCCESS ROUTE------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------
+
+
+@app.route("/new_job_success/", methods=['POST','GET'])
+def jobSuccess():
+    page = "Job Added"
+    return render_template('new_job_success.html', page=page)
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------------------UPDATE JOB ROUTE------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
+
+
+
+@app.route("/update_job/<jobID>", methods=["GET", "POST"])
+def updateJob(jobID):
+   
+    page = "Update job"
+    oplist = DB.getActiveOperators()
+    typeList = DB.getJobType()
+    workcellList = DB.getWorkCells()
+    result = DB.setUpdateForm(jobID)
+    job = {
+    'job ID': result[0][0],
+    'job name': result[0][1],
+    'work order': result[0][2],
+    'cell': result[0][3],
+    'cell ID': result[0][4],
+    'status': result[0][5],
+    'status ID': result[0][6],
+     'type': result[0][7],
+    'type ID': result[0][8],
+    'weight': result[0][9],
+    'activity ID' : result[0][10],
+    'operator': result[0][11],
+    'operator ID': result[0][12],
+    'last op': result[0][13],
+    'notes': result[0][14],
+    'last activity': result[0][15],
+    }
+
+
+    errors = True
+
+    if request.method == 'POST':
+        errors = False
+
+        if not request.form['action']:
+            errors = True
+        
+        if not request.form['operator']:
+            errors = True
+
+        if not request.form['next-operation']:
+            errors = True
+
+        if not errors:
+            
+            now = datetime.now()
+            time = now.strftime('%I:%M %p')
+            date = now.strftime('%Y-%m-%d')
+            dbNotes = job['notes']
+            pageNotes = request.form['notes']
+            OperatorID = request.form['operator']
+
+            if(util.textHasChanged(dbNotes,pageNotes)):
+                alias = util.getUserAlias(OperatorID)
+                notes = pageNotes
+                addNote = util.appendTimeStamp(alias,notes)
+            else:
+                addNote = dbNotes
+           
+           
+            details = {
+                'jobID': job['job ID'],
+                'status': request.form['action'],
+                'activity': request.form['action'],
+                'notes' : addNote,
+                'time' : time,
+                'date' : date,
+                'operation' : request.form['next-operation'],
+                'operator' : request.form['operator']
+            }
+            DB.logActivity(details)
+
+            if not(request.form['action'] == '2') and not(request.form['action'] == '5'):
+                time = ''
+                date = ''
+            
+            DB.updateJobRecord(details)
+
+        return redirect(url_for('updateJobSuccess'))
+
+    else:
+        return render_template('update_job.html',job=job, oplist=oplist, page=page)
+
+    return render_template('update_job.html',job=job, oplist=oplist, page=page)
+
+
+
+
+# -------------------------------------UPDATE SUCCESS ROUTE------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
+
+
+@app.route("/update_job_success/", methods=['POST','GET'])
+def updateJobSuccess():
+    page = "Job updated"
+    return render_template('update_job_success.html', page=page)
+
+
+
+
+
+
+
+
+
+
+
+# -------------------------------------Run Program------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 
 
 

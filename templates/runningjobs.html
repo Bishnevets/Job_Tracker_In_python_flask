@@ -1,73 +1,77 @@
 {% extends "layout.html"%}
+{% block body%}
 
-    {% block body%}
+<div class="content-col">
 
+    <div class="content-row">
+        <div class='table-header'>
+            <form action="">
+             <div>
+                <label for="filter1">Job Name: </label>
+                <input type="text" id='filter1'>   
+             </div>   
+             <div>
+                <label for="filter1">Work order : </label>
+                <input type="text" id='filter1'>   
+             </div>   
+             <div>
+                <label for="filter1">Operator: </label>
+                <input type="text" id='filter1'>   
+             </div>
+            </form>   
+           </div>
+    </div>
 
-   <div class='table-header'>
-     <div>
-        <form action="">
-        <label for="filter1">Job Name: </label>
-        <input type="text" id='filter1'>   
-     </div>   
-     <div>
-        <label for="filter1">Work order : </label>
-        <input type="text" id='filter1'>   
-     </div>   
-     <div>
-        <label for="filter1">Operator: </label>
-        <input type="text" id='filter1'>   
-     </div>
-    </form>   
-   </div>
-
-   <div class="table-wrap">	
-   
-        <table class="runningJobs">
-           <thead>
-            <tr>
-                <th></th>
-                <th>Job</th>
-                <th>Work order</th>
-                <th>cell</th>
-                <th>Status</th>
-                <th>Weight</th>
-                <th>Current Operator</th>
-                <th>Last Activity</th>
-            </tr>
-        </thead>
-         
-           <div class="table-body">
-                <tbody>
-                    {% for job in jobs  %}
-                    <tr>
-                    <td class="tbl-link">
-                        <form action="" method="POST">
-                            <input class="table-sub-button" type="submit" name="" value='Update Job'/>
-                            <input type="hidden" name="JobID" value="{{job['jobID']}}" />
-                        </form>
-                    </td>
-                    
-                        <td>{{job['job']}}</td>
-                        <td>{{job['workorder']}}</td>
-                        <td>{{job['cell']}}</td>
-                        <td>{{job['status']}}</td>
-                        <td>{{job['Weight']}} KG</td>
-                        <td>{{job['operator']}}</td>
-                        <td>{{job['timestamp']}}</td>
-                    </tr>
-
-                 {% endfor %}  
-                </tbody>
-            </div><!-- End table body  -->
-        </table>
-                
+    <div class="content-row">
+        <div class="table-wrap">	
+            <table class="runningJobs">
+               <thead>
+                <tr>
+                    <th></th>
+                    <th>Job</th>
+                    <th>Work order</th>
+                    <th>cell</th>
+                    <th>Status</th>
+                    <th>Weight</th>
+                    <th>Current Operator</th>
+                    <th>Last Activity</th>
+                </tr>
+            </thead>
+             
+               <div class="table-body">
+                    <tbody>
+                        {% for job in jobs  %}
+                        <tr>
+                        <td class="tbl-link">
+                            <form action="" method="POST">
+                                <input class="table-sub-button" type="submit" name="" value='Update Job'/>
+                                <input type="hidden" name="JobID" value="{{job['jobID']}}" />
+                            </form>
+                        </td>
+                        
+                            <td>{{job['job']}}</td>
+                            <td>{{job['workorder']}}</td>
+                            <td>{{job['cell']}}</td>
+                            <td>{{job['status']}}</td>
+                            <td style="text-align: right;">{{job['weight']}} KG</td>
+                            <td>{{job['operator']}}</td>
+                            <td>{{job['timestamp']}}</td>
+                        </tr>
+    
+                     {% endfor %}  
+                    </tbody>
+                </div>
+            </table>          
+    </div>
 </div>
-<div class="table-footer"></div>
-
-<!-- <div class="table-footer"></div> 
-     -->
 
 
+<div class="content-row">
+    <div class="table-footer"></div>
+</div>
+
+
+</div>
 
       {% endblock %}
 
