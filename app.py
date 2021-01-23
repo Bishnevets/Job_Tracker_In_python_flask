@@ -25,8 +25,10 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    page = "Dashboard"
-    today = 'Monday June 34, 2021'
+
+    page = "THE DASHBOARD"
+    now = datetime.now()
+    today = now.strftime('%A %B %d, %Y')
     runningJobs = DB.RunningJobsCount()
     dayCount = DB.getJobsCompleteToday()
     weekCount = DB.getJobsCompleteThisWeek()
@@ -57,7 +59,7 @@ def index():
 
 @app.route("/runningjobs/", methods=['POST','GET'])
 def runningJobs():
-    page = "Running Jobs"
+    page = "WORK IN PROCESS"
     jobList = DB.getRunningJobsList()
     jobs = []
     for job in jobList:
@@ -98,7 +100,7 @@ def runningJobs():
 
 @app.route("/completed_jobs/", methods=['POST','GET'])
 def completedJobs():
-    page = "Completed"
+    page = "THESE JOBS ARE DONE"
     jobList = DB.getCompletedJobsList()
     jobs = []
     for job in jobList:
@@ -144,7 +146,7 @@ def completedJobs():
 
 @app.route("/new_job/", methods=['POST','GET'])
 def newJobform():
-    page = 'Start Job'
+    page = 'START A NEW JOB'
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
     workcellList = DB.getWorkCells()
@@ -188,7 +190,7 @@ def newJobform():
         if not errors:
             now = datetime.now()
             time = now.strftime('%I:%M %p')
-            date = now.strftime('%m-%d-%Y')
+            date = now.strftime('%Y-%m-%d')
 
             alias = util.getUserAlias(request.form['operator'])
             notes = request.form['notes']
@@ -233,7 +235,7 @@ def newJobform():
 
 @app.route("/new_job_success/", methods=['POST','GET'])
 def jobSuccess():
-    page = "Job Added"
+    page = "NEW JOB ADDED"
     return render_template('new_job_success.html', page=page)
 
 
@@ -270,7 +272,7 @@ def jobSuccess():
 @app.route("/update_job/<jobID>", methods=["GET", "POST"])
 def updateJob(jobID):
    
-    page = "Update job"
+    page = "UPDATE WORK IN PROCESS"
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
     workcellList = DB.getWorkCells()
@@ -317,6 +319,12 @@ def updateJob(jobID):
             dbNotes = job['notes']
             pageNotes = request.form['notes']
             OperatorID = request.form['operator']
+            action = request.form['action']
+            status = action
+
+            if action == "7":
+                status = 1
+                
 
             if(util.textHasChanged(dbNotes,pageNotes)):
                 alias = util.getUserAlias(OperatorID)
@@ -328,8 +336,8 @@ def updateJob(jobID):
            
             details = {
                 'jobID': job['job ID'],
-                'status': request.form['action'],
-                'activity': request.form['action'],
+                'status': status,
+                'activity': action,
                 'notes' : addNote,
                 'time' : time,
                 'date' : date,
@@ -360,7 +368,7 @@ def updateJob(jobID):
 
 @app.route("/update_job_success/", methods=['POST','GET'])
 def updateJobSuccess():
-    page = "Job updated"
+    page = "UPDATE SUCCESSFUL"
     return render_template('update_job_success.html', page=page)
 
 

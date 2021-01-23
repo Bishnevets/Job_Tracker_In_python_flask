@@ -2,135 +2,81 @@
 
     {% block body%}
 
-    <div class="content-col">
+    
 
-        <div class="details-wrap">
-            <div class="jdu-col-left">
-                <table class="job-details-update">
-                    <tr>
-                        <td class="jdu-label"><p>Job Name:</p></td>
-                        <td class="jdu-value"><p>{{job['job name']}}</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Current Operator:</p></td>
-                        <td class="jdu-value"><p>{{job['operator']}}</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Work Order:</p></td>
-                        <td class="jdu-value"><p>{{job['work order']}}</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Work Cell:</p></td>
-                        <td class="jdu-value"><p>{{job['cell']}}</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Job Type:</p></td>
-                        <td class="jdu-value"><p>{{job['type']}}</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Job Weight:</p></td>
-                        <td class="jdu-value"><p>{{job['weight']}} Kg</p></td>
-                    </tr>
-                    <tr>
-                        <td class="jdu-label"><p>Last Operation:</p></td>
-                        <td class="jdu-value"><p>{{job['last op']}}</p></td>
-                    </tr>
-                </table>
-                <div class="timestamp">
-                    <p style="font-weight: bold;">Last Log Time</p>
-                    <p>{{job['last activity']}}</p>
-                </div>
-                
+         <!----------------------------- UPdATE JOB -------------------------------------------------->
+
+         <form class="content-row-update-job" action="" method="POST">
+            <p class="update-label">Job Name:</p>
+            <p class="update-label">Current Operator:</p>
+            <p class="update-label">Work Order:</p>
+            <p class="update-label">Work Cell:</p>
+            <p class="update-label">Job Type:</p>
+            <p class="update-label">Job Weight:</p>
+            <p class="update-label">Current Status:</p>
+            <div class="timestamp">
+                <p style="font-weight: bold;">Last Log Time</p>
+                <p>{{job['last activity']}}</p>
             </div>
+            <p class="update-value">{{job['job name']}}</p>
+            <p class="update-value">{{job['operator']}}</p>
+            <p class="update-value">{{job['work order']}}</p>
+            <p class="update-value">{{job['cell']}}</p>
+            <p class="update-value">{{job['type']}}</p>
+            <p class="update-value">{{job['weight']}} Kg</p>
+            <p class="update-value">{{job['status']}}</p>
+            
+           
 
 
 
 
-            <div class="jdu-col-right">
-                <form class="update-job"action="" method="POST">
+        <div class="radio-wrap">
+            <h3 class="ckbx-heading">Select Operation</h3>
+            <label for="add_note">Add Note Only</label>
+            <label for="pause">Pause</label>
+            <label for="resume">Resume</label>
+            <label for="abort">Abort</label>
+            <label for="complete">Complete</label>
 
-                        <fieldset>
-                            
-                            <legend>Select Operation</legend>
-                            <div class="radio-wrap">
-                            <div class="radio">
-                                <label for="add_note">Add Note Only</label>
-                                <input  type="radio" name="action" id="add_note" value="1" checked/>
-                            </div>
-                           
-                            <div class="radio">
-                                <label for="pause">Pause</label>
-                                <input  type="radio" name="action" id="pause" value="3"/>
-                            </div>
-                            
-                            <div class="radio">
-                                <label for="resume">Resume</label>
-                                <input  type="radio" name="action" id="resume" value="7"/>
-                            </div>
-                           
-                            <div class="radio">
-                                <label for="abort">Abort</label>
-                                <input  type="radio" name="action" id="abort" value="5"/>
-                            </div>
-                          
-                            <div class="radio">
-                                <label for="complete">Complete</label>
-                                <input  type="radio" name="action" id="complete" value="2"/>
-                            </div>
-                            </div>
-
-                        </fieldset>
-                   
-                    
-                    
-                    <div class="field-wrap note-wrap">
-                        <label for="notes">Operator Notes</label>
-                        <textarea class="notes" name ='notes' id="notes" autocomplete="off">{{job['notes']}}</textarea>
-                    </div> 
-
-
-
-                    <table class="form-table-input-block">
-                        <tr>
-                            <td class="form-label"><label>Next Operator: </label></td>
-                            <td class="form-input">
-                                <select name="operator" value="">
-                                    <option value="{{job['operator ID']}}" selected='selected'>{{job['operator']}}</option>
-                                    {% for op in oplist %}
-                                    <option value="{{op[0]}}">{{op[1]}}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="form-label"><label>Next Operation: </label> </td>
-                            <td class="form-input">
-                                <select name="next-operation">
-                                    <option value="{{job['last op']}}">{{job['last op']}}</option>
-                                        {% for x in range(10) %}
-                                            {% if x!=0 %}
-                                                <option value="{{x * 10}}">{{x * 10}}</option>
-                                            {% endif %}
-                                        {% endfor %}               
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                        <div class="field-wrap fw-submit">
-                            <input class="submit" type="submit" name="Start_new_job" value="Update Job">
-                        </div>
-                        
-                </form>
-            </div>
+            <input  type="radio" name="action" id="add_note" value="{{job['status ID']}}" checked/>
+            <input  type="radio" name="action" id="pause" value="3"/>
+            <input  type="radio" name="action" id="resume" value="7"/>
+            <input  type="radio" name="action" id="abort" value="5"/>
+            <input  type="radio" name="action" id="complete" value="2"/>
         </div>
 
 
-    </div>
-        
-      
+        <div class="note-wrap-update">
+            <label>Operator Notes</label>
+            <textarea class="notes" name ='notes' autocomplete="off">{{job['notes']}}</textarea>
+        </div>
 
-      
-   
+        <label class="form-label-update">Next Operator: </label>
+        <label class="form-label-update">Next Operation: </label>
+
+        <select class="form-input"  name="operator">
+            <option value="{{job['operator ID']}}" selected='selected'>{{job['operator']}}</option>
+            {% for op in oplist %}
+            <option value="{{op[0]}}">{{op[1]}}</option>
+            {% endfor %}
+        </select>
+
+        <select class="form-input"  name="next-operation">
+            <option value="{{job['last op']}}">{{job['last op']}}</option>
+            {% for x in range(10) %}
+                {% if x!=0 %}
+                    <option value="{{x * 10}}">{{x * 10}}</option>
+                {% endif %}
+            {% endfor %}      
+
+        </select>
+ 
+        <input id="update-submit"class="submit" type="submit" name="Start_new_job" value="Update Job">
+
+    </form> <!--end of the row-->
+        
+
 
      
       {% endblock %}

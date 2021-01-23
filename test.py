@@ -1,40 +1,54 @@
 from data import DB, util
 from datetime import datetime
 
+
+
 now = datetime.now()
 time = now.strftime('%I:%M %p')
 date = now.strftime('%m-%d-%Y')
 
 
-
-# def appendTimeStamp(user,appendTo, message="Log Entry"):
-
-#             now = datetime.now()
-#             time = now.strftime('%I:%M %p')
-#             date = now.strftime('%m-%d-%Y')   
-#             stamp = "\n***" + message + " " + time + " " + date + "\n"
-#             stamp += "------------------------" + user + "\n"
-#             return  appendTo + stamp
-
-
-# alias = util.getUserAlias('12')
-# notes = "This is what happened"
-# x =util.appendTimeStamp(alias,notes)
+# date = (now.strftime('%A %B %d, %Y'))
 
 
 
 
 
-# x =appendTimeStamp('SBishop','Job')
 
 
+# for date in dates:
+#     print(date[1])
 
-x =  DB.getNoteStringLength(718)
-y = DB.getNoteStringLength(718)
-print(util.compareAreaTextSize(x,y))
+def formatDateForDatabase(date):
 
-# print(DB.getNoteStringLength(200))
+        empty = True
+
+        for char in date:
+            if char == '/':
+                empty = False
+                break
+
+        if not empty:
+            date = date.split('/')
+            month = str(date[0])
+            day = str(date[1])
+            year = str(date[2])
+
+            
+            dateBuilder = year + '-' + month + '-' + day
+        else:
+            dateBuilder = ""
+
+        return dateBuilder
 
 
-'Log Entry 10:25 PM 01-15-2021\r\n------------------------TCassese\r\n\r\n\r\nLog Entry 10:30 PM 01-15-2021\r\n------------------------TCassese\r\n\nLog Entry 10:31 PM 01-15-2021\n------------------------TCassese\n'
-'Log Entry 10:25 PM 01-15-2021\r\n------------------------TCassese\r\n\r\n\r\nLog Entry 10:30 PM 01-15-2021\r\n------------------------TCassese\r\n\r\nLog Entry 10:31 PM 01-15-2021\r\n------------------------TCassese\r\n'
+records = DB.reformateDate_jobRecord()
+
+for record in records:
+    id = record[0]
+    date = formatDateForDatabase(record[1])
+    print(DB.updateDateField(id,date))
+    print("success")
+
+#  print(str(formatDateForDatabase(date[1])) + " " + str(date[0]))
+    

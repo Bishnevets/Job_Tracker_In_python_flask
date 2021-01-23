@@ -1,17 +1,5 @@
 {% extends "layout.html"%}
 {% block body%}
-
-<div class="content-col">
-    <div class="content-row row-short">
-        <div class="content_message">
-            <P>Today is: {{today}}</P>
-            <P>We are Open for Business</P>
-        </div>
-    </div>
-    {% include "dashboxset.html" %}
-</div>
- 
-     
-
-
+        {% include "dashboard.html" %}
 {% endblock%}
+

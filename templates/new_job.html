@@ -1,108 +1,78 @@
 {% extends "layout.html"%}
 
-    {% block body%}
-
-
-<div class="content-col">
-  
-    <div class="content-row">
-        <form class="start-job-form" action="" method="POST">
-            <div class="col-2-right-split-content">
-
-                <div class="add-col-left">
-                    <table class="form-table-input-block">
-                        <tr><td class="form-label"><label>Operator:</label></td>
-                               <td class="form-input">
-                               <select name="operator">
-                                   <option value=""></option>
-                                   {% for op in oplist %}
-                                   <option value="{{op[0]}}">{{op[1]}}</option>
-                                   {% endfor %}
-                               </select>
-                           </td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Job Name:</label></td>
-                           <td class="form-input"><input type="text" name ='job_name' required /></td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Work Order:</label></td>
-                           <td class="form-input"><input type="text" name ='work_order' required/></td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Work Cell:</label></td>
-                           <td class="form-input">
-                               <select name="work_cell">
-                                   <option value=""></option>
-                                   {% for cell in workcellList  %}
-                                   <option value="{{cell[0]}}">{{cell[1]}}</option>
-                                   {% endfor %}
-                               </select>
-                           </td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Job Type:</label></td>
-                           <td class="form-input">
-                               <select  name="job_type">
-                                   <option value=""></option>
-                                   {% for type in typeList %}
-                                   <option value="{{type[0]}}">{{type[1]}}</option>
-                                   {% endfor %}
-                               </select>
-           
-                           </td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Job Weight:</label></td>
-                           <td class="form-input"><input type="text" name ='job_weight' required/></td>
-                       </tr>
-           
-                       <tr>
-                           <td class="form-label"><label>Last Operation:</label></td>
-                           <td class="form-input"> 
-                               <select name="total_operations">
-                               <option value=""></option>
-                               {% for x in range(10) %}
-                                   {% if x!=0 %}
-                                       <option value="{{x * 10}}">{{x * 10}}</option>
-                                   {% endif %}
-                               {% endfor %}
-                               </select>
-                           </td>
-                       </tr>
-                   </table>
     
-                </div>
-                
-                
-                
-                
-                <div class="add-col-right">
-                    <div class="field-wrap">
-                        <fieldset class="ckbx-container">
-                            <div class="ckbx-heading"><h3>Does the Job have any of these?</h3></div>
-                            <div class="ckbx-input-set">
-                                <div><label for="ip">In-Process Testing</label><input class="ckbx" id='ip' type="checkbox" name="in_process_testing" value="1"/></div>
-                                <div><label for="pa"> Pre-adjustments</label><input class="ckbx" id ='pa'type="checkbox" name="predjustments" value="1"/></div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="field-wrap note-wrap">
-                        <label>Operator Notes</label>
-                        <textarea class="notes" name ='notes' autocomplete="off"></textarea>
-                    </div>
-                    <div class="field-wrap fw-submit">
-                        <input class="submit" type="submit" name="Start_new_job" value="Start New Job">
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+{% block body%}
 
-      {% endblock %}
+
+    <!----------------------------- STart NEw JOB -------------------------------------------------->
+    <form action="" method="POST" class="content-row-start-job">
+
+        
+        <label class="form-label">Operator:</label>
+        <label class="form-label">Job Name:</label>
+        <label class="form-label">Work Order:</label>
+        <label class="form-label">Work Cell:</label>
+        <label class="form-label">Job Type:</label>
+        <label class="form-label">Job Weight:</label>
+        <label class="form-label">Last Operation:</label>
+
+        <select class="form-input" name="operator">
+            <option value=""></option>
+            {% for op in oplist %}
+            <option value="{{op[0]}}">{{op[1]}}</option>
+            {% endfor %}
+        </select>
+        
+        <input class="form-input" type="text" name ='job_name' required />
+        
+
+        <input class="form-input" type="text" name ='work_order' required/>
+
+        <select class="form-input" name="work_cell">
+            <option value=""></option>
+            {% for cell in workcellList  %}
+            <option value="{{cell[0]}}">{{cell[1]}}</option>
+            {% endfor %}
+        </select>
+
+
+        <select class="form-input"  name="job_type">
+            <option value=""></option>
+            {% for type in typeList %}
+            <option value="{{type[0]}}">{{type[1]}}</option>
+            {% endfor %}
+        </select>
+
+        <input class="form-input" type="text" name ='job_weight' required/>
+
+
+        <select name="total_operations">
+            <option value=""></option>
+            {% for x in range(10) %}
+                {% if x!=0 %}
+                    <option value="{{x * 10}}">{{x * 10}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+
+
+
+        <div class="ckbx-container">
+           <h3 class="ckbx-heading">Does the Job have any of these?</h3>
+           <label class="ip-test" for="ip">In-Process Testing</label>
+           <label class="pa-test" for="pa"> Pre-adjustments</label>
+           <input class="ckbx-ip" id='ip' type="checkbox" name="in_process_testing" value="1"/>
+           <input class="ckbx-pa" id ='pa'type="checkbox" name="predjustments" value="1"/>
+        </div>
+
+        <div class="note-wrap">
+            <label>Operator Notes</label>
+            <textarea class="notes" name ='notes' autocomplete="off"></textarea>
+        </div>
+
+
+        <input id="form-submit" class="submit" type="submit" name="Start_new_job" value="Start New Job">
+    </form>
+
+
+{% endblock %}

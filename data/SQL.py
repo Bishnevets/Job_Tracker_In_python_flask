@@ -193,6 +193,14 @@ def UpdateJobRecord(details):
 
 #------------------------------------SPECIAL STATEMENTS----------------------------------------------------------
 
-def SelectAllActivity():
-    Return = "SELECT * from Activity a"
+def selectDateToUpdate():
+       # SQL = "SELECT Job_ID, Start_Date from Job_Record jr"
+        SQL = "SELECT Job_ID, End_Date from Job_Record jr"
+        return SQL
 
+def updateDateFormat(record, date):
+    id = str(record)
+    date = str(date)
+    #SQL = "UPDATE Job_Record SET  Start_Date='" + date +"' WHERE Job_ID='" + id + "';"
+    SQL = "UPDATE Job_Record SET  End_Date='" + date +"' WHERE Job_ID='" + id + "';"
+    return SQL

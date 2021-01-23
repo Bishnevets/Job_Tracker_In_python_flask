@@ -163,12 +163,27 @@ def updateJobRecord(details):
 
 #------------------------------------SPECIAL Functions----------------------------------------------------------
 
-# def truncateDate():
-#     conn = make_connection()
-#     c = conn.cursor()
-#     SQL = Q.SelectAllActivity()
-#     c.execute(SQL)
-#     items = c.fetchall()
+def reformateDate_jobRecord():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.selectDateToUpdate()
+    c.execute(SQL)
+    items = c.fetchall()
+    return items
+
+
+    
+def updateDateField(record, date):
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.updateDateFormat(record, date)
+    c.execute(SQL)
+    conn.commit()
+    end_connection(conn)
+    return SQL
+
+
+
 
 
 def getNoteStringLength(id):    

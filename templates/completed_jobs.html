@@ -1,40 +1,32 @@
-{% extends "layout.html"%}
+ {% extends "layout.html"%}
 
     {% block body%}
 
-    <div class="content-col">
-
-        <div class="content-row">
-
+    <div class="content-row-table">
             <div class='table-header'>
                 <form class="complete-search" action="">  
-                 <fieldset>
-                     <legend>Date Search</legend>
+                    <div>
+                        <input class="table-sub-button" type="submit" name="" value='search'/>
+                    </div>
                     <div> 
                         <label for="filter1">Range Start: </label>
-                        <input type="text" id='filter1'>   
+                        <input type="date" id='filter1'>   
                      </div>   
+
                      <div>
                         <label for="filter1">Range End: </label>
-                        <input type="text" id='filter1'>   
+                        <input type="date" id='filter1'>   
                      </div> 
-                 </fieldset>   
                 
                  <div>
                     <label for="filter1">Operator: </label>
                     <input type="text" id='filter1'>   
                  </div>
-                </form>   
-               </div>
+             </form>   
+            </div>
             
-        </div>
-
-
-        <div class="content-row">
-
-            
-   <div class="table-wrap">	
-    <table class="runningJobs">
+    
+    <table class="running-Jobs-table">
        <thead>
         <tr>
             <th></th>
@@ -70,28 +62,11 @@
 
              {% endfor %}  
             </tbody>
-        </div><!-- End table body  -->
+        </div>
     </table>       
-</div>
-
-        </div>
-
-        
-        <div class="content-row">
-
-            <div class="table-footer"></div>
-
-
-        </div>
-
-   
-
-
-
 
 
 </div>
-
       {% endblock %}
-
+ 
 

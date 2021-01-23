@@ -1,0 +1,44 @@
+
+
+
+
+
+
+        
+        <div class="_top-nav">
+          <div class="top-nav-link">
+            {% if page == 'THE DASHBOARD'  %}
+              <a class= "tab-active" id="dash-tab" href="/">Dashboard</a>
+            {% else %}
+             <a class= "" id="dash-tab" href="/">Dashboard</a>
+            {% endif %}
+          </div>
+
+          <div class="top-nav-link">
+            {% if page == 'START A NEW JOB'  %}
+              <a class= "tab-active" id="startJob-tab" href="/new_job">Start Job</a>
+            {% else %} 
+              <a id="startJob-tab" href="/new_job">Start Job</a>
+            {% endif %}
+          </div>
+
+          <div class="top-nav-link">
+            {% if page == 'WORK IN PROCESS'  %}
+              <a class= "tab-active" id="runnngJobs-tab" href="/runningjobs">Running Jobs</a>
+            {% else %} 
+              <a id="runnngJobs-tab" href="/runningjobs">Running Jobs</a>
+            {% endif %}
+          </div>
+
+          <div class="top-nav-link">
+            {% if page == 'THESE JOBS ARE DONE'  %} 
+              <a class= "tab-active" id="completedJobs-tab" href="/completed_jobs">Completed Jobs</a>
+            {% else %} 
+              <a id="completedJobs-tab" href="/completed_jobs">Completed Jobs</a>
+            {% endif %}
+          </div>
+        </div>
+     
+     
+
+ 

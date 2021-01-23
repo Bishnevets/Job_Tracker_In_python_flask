@@ -7,11 +7,18 @@
    <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='style.css')}}"/>
 </head>
 <body>
-   {% include 'header.html' %}
-   <div class="main-wrapper">
-         {% include 'nav.html' %}
-         {%block body%}{% endblock%}
+   <div class="site-container">
+     {% include 'header.html' %}
+     {% include 'side_bar.html' %}
+     {% include 'top_nav.html' %}
+     {% include 'page_title.html' %}
+      <div class="_content">
+      {% block body%}
+      {% endblock%}
+      </div> <!--END OF CONTENT AREA-->    
    </div>
+   
+
 </body>
 <script src="{{url_for('static', filename='script.js')}}"></script>
 </html>
