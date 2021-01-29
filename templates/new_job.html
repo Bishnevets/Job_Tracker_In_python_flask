@@ -74,5 +74,11 @@
         <input id="form-submit" class="submit" type="submit" name="Start_new_job" value="Start New Job">
     </form>
 
+    <script>
+        updateMessage = document.querySelector("#form-submit").addEventListener("click", function(){
+    alert("Job has been Started")
+    });
+    </script>
+
 
 {% endblock %}

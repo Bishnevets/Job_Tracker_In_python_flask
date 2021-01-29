@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, json
 from markupsafe import escape
 import os
 import csv
@@ -7,6 +7,7 @@ from datetime import datetime
 from flask.helpers import url_for
 import calendar
 
+
 # web application instance
 app = Flask(__name__)
 
@@ -14,15 +15,16 @@ app = Flask(__name__)
 #----------------------------------------lists and veriables--------------------------------------------- 
 
 
-#--------------------------------------------------------------------------------------------------------
-# ----------------------------------------------ROUTING--------------------------------------------------
-#  ------------------------------------------------------------------------------------------------------
 
 
 
-# -------------------------------------DASHBOARD ROUTE----------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
 
+
+#============================================== ROUTING SECTION =========================================
+
+
+
+# DASHBOARD ROUTE =======================================================================================
 @app.route("/", methods=["GET", "POST"])
 def index():
 
@@ -34,6 +36,26 @@ def index():
     weekCount = DB.getJobsCompleteThisWeek()
     monthCount = DB.getJobsCompleteThisMonth()
 
+    CellOBJ = {
+        "Large Hock": 0,
+        "Pilot Hock": 0,
+        "2 Gal Ross": 0,
+        "10 Gal Ross": 0,
+        "40 Gal Ross": 0,
+        "100 Gal Ross": 0,
+        "Mezz Tank": 0,
+        "Activator": 0,
+        "1/2 Gal Ross": 0,
+    }
+
+    cellcount = DB.getTodaysCellCount()
+
+    for cell in cellcount:
+     CellOBJ[cell[0]] = cell[1]
+     print(CellOBJ[cell[0]])
+
+    cellData = [CellOBJ["Pilot Hock"],CellOBJ["Large Hock"],CellOBJ["1/2 Gal Ross"],CellOBJ["2 Gal Ross"],CellOBJ["10 Gal Ross"],CellOBJ["40 Gal Ross"],CellOBJ["100 Gal Ross"],CellOBJ["Mezz Tank"],CellOBJ["Activator"]]
+
     output = {
         'runningJobs' : runningJobs,
         'dayCount' : dayCount,
@@ -41,7 +63,13 @@ def index():
         'monthCount' : monthCount
     }
 
-    return render_template('index.html', output=output, page=page, today=today)
+    return render_template('index.html', 
+                            output=output, 
+                            page=page, 
+                            today=today,
+                            cellData = json.dumps(cellData)
+                            )
+# ======================================================================================== DASHBOARD ROUTE
 
 
 
@@ -49,12 +77,7 @@ def index():
 
 
 
-
-
-
-
-# -------------------------------------RUNNING JOBS ROUTE------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
+# RUNNING JOBS ROUTE ====================================================================================
 
 
 @app.route("/runningjobs/", methods=['POST','GET'])
@@ -87,17 +110,14 @@ def runningJobs():
             return render_template('runningjobs.html', jobs=jobs, page=page)
 
     return render_template('runningjobs.html', jobs=jobs, page=page)
+# ===================================================================================== RUNNING JOBS ROUTE
 
 
 
 
 
 
-
-# -------------------------------------Completed JOBS ROUTE------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
-
-
+# COMPLETED JOBS ROUTE ===================================================================================
 @app.route("/completed_jobs/", methods=['POST','GET'])
 def completedJobs():
     page = "THESE JOBS ARE DONE"
@@ -123,27 +143,18 @@ def completedJobs():
         if not errors:
 
             jobID = request.form['JobID']
-            return redirect(url_for('updateJob', jobID=jobID))
+            return redirect(url_for('viewComplete', jobID=jobID))
         else:
             return render_template('completed_jobs.html', jobs=jobs, page=page)
 
     return render_template('completed_jobs.html', jobs=jobs, page=page)
+#  =================================================================================== COMPLETED JOBS ROUTE
 
 
 
 
 
-
-
-
-
-
-
-
-# -------------------------------------NEW JOB ROUTE------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
-
-
+# NEW JOBS ROUTE ===========================================================================================
 @app.route("/new_job/", methods=['POST','GET'])
 def newJobform():
     page = 'START A NEW JOB'
@@ -151,7 +162,7 @@ def newJobform():
     typeList = DB.getJobType()
     workcellList = DB.getWorkCells()
 
-    # Form handler------------------------------------ 
+
     if request.method == 'POST':
         errors = False
 
@@ -218,25 +229,27 @@ def newJobform():
 
             DB.startJob(newRecord)
             page = "Job Added"
-            return  render_template('new_job_success.html',newRecord=newRecord, page=page)
+            return redirect(url_for('index'))
+            # return  render_template('new_job_success.html',newRecord=newRecord, page=page)
            
         else:
             return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList, page=page)
         
 
     return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList, page=page)
+# ================================================================================================= NEW JOBS ROUTE 
 
 
 
 
-#-------------------------------------NEW JOB SUCCESS ROUTE------------------------------------------------------
-#----------------------------------------------------------------------------------------------------------------
 
 
+# ADD JOB SUCCESS ROUTE ===========================================================================================
 @app.route("/new_job_success/", methods=['POST','GET'])
 def jobSuccess():
     page = "NEW JOB ADDED"
     return render_template('new_job_success.html', page=page)
+# =========================================================================================== ADD JOB SUCCESS ROUTE
 
 
 
@@ -245,30 +258,7 @@ def jobSuccess():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# -------------------------------------UPDATE JOB ROUTE------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
-
-
-
+# UPDATE JOB ROUTE ===========================================================================================
 @app.route("/update_job/<jobID>", methods=["GET", "POST"])
 def updateJob(jobID):
    
@@ -352,39 +342,96 @@ def updateJob(jobID):
             
             DB.updateJobRecord(details)
 
-        return redirect(url_for('updateJobSuccess'))
+        # return redirect(url_for('updateJobSuccess'))
+        return redirect(url_for('index'))
 
     else:
         return render_template('update_job.html',job=job, oplist=oplist, page=page)
 
     return render_template('update_job.html',job=job, oplist=oplist, page=page)
+# =========================================================================================== UPDATE JOB ROUTE
 
 
 
 
-# -------------------------------------UPDATE SUCCESS ROUTE------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
-
-
+# JOB UPDATE SUCCESS ROUTE ===========================================================================================
 @app.route("/update_job_success/", methods=['POST','GET'])
 def updateJobSuccess():
     page = "UPDATE SUCCESSFUL"
     return render_template('update_job_success.html', page=page)
+# =========================================================================================== JOB UPDATE SUCCESS ROUTE
 
 
 
 
 
+# VIEW JOB RECORD ROUTE ===========================================================================================
+@app.route("/job_record/<jobID>", methods=["GET", "POST"])
+def viewComplete(jobID):
+   
+    page = "JOB RECORD"
+    oplist = DB.getActiveOperators()
+    typeList = DB.getJobType()
+    workcellList = DB.getWorkCells()
+    result = DB.setUpdateForm(jobID)
+    endDate = result[0][15]
+    endDate = endDate[0:10]
+
+    job = {
+    'job ID': result[0][0],
+    'job name': result[0][1],
+    'work order': result[0][2],
+    'cell': result[0][3],
+    'cell ID': result[0][4],
+    'status': result[0][5],
+    'status ID': result[0][6],
+     'type': result[0][7],
+    'type ID': result[0][8],
+    'weight': result[0][9],
+    'activity ID' : result[0][10],
+    'operator': result[0][11],
+    'operator ID': result[0][12],
+    'last op': result[0][13],
+    'notes': result[0][14],
+    'last activity': endDate
+    }
+
+    if request.method == 'POST':        
+        now = datetime.now()
+        time = now.strftime('%I:%M %p')
+        date = now.strftime('%Y-%m-%d')
+        dbNotes = job['notes']
+        pageNotes = request.form['notes']
+
+
+        if(util.textHasChanged(dbNotes,pageNotes)):
+            alias = "SYS"
+            notes = pageNotes
+            addNote = util.appendTimeStamp(alias,notes)
+        else:
+            addNote = dbNotes
+
+        
+        details = {
+                'jobID': job['job ID'],
+                'notes' : addNote
+                }
+                
+        DB.updateJobNotes(details)
+           
+
+        return redirect(url_for('completedJobs'))
+
+    else:
+        return render_template('job_record.html',job=job, oplist=oplist, page=page)
+
+    return render_template('job_record.html',job=job, oplist=oplist, page=page)
+# =========================================================================================== VIEW JOB RECORD ROUTE
 
 
 
 
-
-
-# -------------------------------------Run Program------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------
-
-
+# RUN PROGRAM ===========================================================================================
 
 if __name__ == "__main__":
    app.run(debug=True, host="0.0.0.0", port=5000)

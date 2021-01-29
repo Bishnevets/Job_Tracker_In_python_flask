@@ -1,0 +1,38 @@
+{% extends "layout.html"%}
+
+    {% block body%}
+
+    
+
+         <!----------------------------- View Record -------------------------------------------------->
+
+         <form class="content-row-record-view" action="" method="POST">
+            <p class="record-label">Job Name:</p> 
+            <p class="record-label">Complete By:</p>
+            <p class="record-label">Work Order:</p>
+            <p class="record-label">Work Cell:</p>
+            <p class="record-label">Job Type:</p>
+            <p class="record-label">Job Weight:</p>
+            <p class="record-label">Completed:</p>
+            <p class="record-value">{{job['job name']}}</p>
+            <p class="record-value">{{job['operator']}}</p>
+            <p class="record-value">{{job['work order']}}</p>
+            <p class="record-value">{{job['cell']}}</p>
+            <p class="record-value">{{job['type']}}</p>
+            <p class="record-value">{{job['weight']}} Kg</p>
+            <p class="record-value">{{job['last activity']}}</p>
+
+        <div class="note-wrap-record-view">
+            <label>Operator Notes</label>
+            <textarea class="notes" name ='notes' autocomplete="off">{{job['notes']}}</textarea>
+        </div>
+
+        <input id="record-submit"class="submit" type="submit" name="add_note" value="Add Note">
+        <div class="record-nav_btn"><a href="/completed_jobs">Back</a></div>
+
+    </form> <!--end of the row-->
+        
+
+
+     
+      {% endblock %}

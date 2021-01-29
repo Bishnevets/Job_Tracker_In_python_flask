@@ -4,29 +4,44 @@
 
     <div class="content-row-table">
             <div class='table-header'>
-                <form class="complete-search" action="">  
+                <form class="range-search-complete" action="">  
                     <div>
-                        <input class="table-sub-button" type="submit" name="" value='search'/>
+                        <input id="range-search-submit" class="table-sub-button" type="submit" name="" value=' '/>
                     </div>
-                    <div> 
-                        <label for="filter1">Range Start: </label>
-                        <input type="date" id='filter1'>   
-                     </div>   
 
-                     <div>
-                        <label for="filter1">Range End: </label>
-                        <input type="date" id='filter1'>   
-                     </div> 
+                    <table class="dateSelect">
+                        <tr> 
+                        <td><label for="filter1">Range Start: </label></td> 
+                        <td><input type="date" id='filter1'>  </td>  
+                        </tr>   
+
+                        <tr>
+                        <td><label for="filter1">Range End: </label></td>  
+                        <td><input type="date" id='filter1'> </td>   
+                        </tr> 
+                    </table>
+
+                    <div class="count-box">
+                        <h3 class="count-label">Job Count</h3>
+                        <h3 class="count-value">23</h3>
+                    </div>
+
+                    <div class="quick_search">
+                        <button>Today</button>
+                        <button>Yesturday</button>
+                        <button>This Week</button>
+                        <button>This Month</button>
+                    </div>
                 
-                 <div>
+                 <!-- <div>
                     <label for="filter1">Operator: </label>
                     <input type="text" id='filter1'>   
-                 </div>
+                 </div> -->
              </form>   
             </div>
             
     
-    <table class="running-Jobs-table">
+    <table class="Job-list-table">
        <thead>
         <tr>
             <th></th>

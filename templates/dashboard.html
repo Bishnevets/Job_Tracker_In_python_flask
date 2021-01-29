@@ -1,5 +1,7 @@
 
-
+  <script type="text/javascript">
+    var cellData = JSON.parse('{{ cellData | tojson }}')
+ </script>
 <div class="dashboard-message">
     <P>Today is: {{today}}</P>
     <P>We are Open for Business</P>
@@ -9,6 +11,10 @@
     {% include "dash_panels.html" %}
 </div>
 
+
+<div class="content-row-bar-chart">
+    {% include "dash_bar_chart.html" %}
+</div>
 
 
 

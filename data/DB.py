@@ -140,9 +140,6 @@ def setUpdateForm(JobID):
     return items
 
 
-
-
-
 def logActivity(details):
     conn = make_connection()
     c = conn.cursor()
@@ -161,22 +158,51 @@ def updateJobRecord(details):
     end_connection(conn)
     return SQL
 
-#------------------------------------SPECIAL Functions----------------------------------------------------------
 
-def reformateDate_jobRecord():
+def updateJobNotes(details):
     conn = make_connection()
     c = conn.cursor()
-    SQL = Q.selectDateToUpdate()
+    SQL = Q.UpdateJobNotes(details)
+    c.execute(SQL)
+    conn.commit()
+    end_connection(conn)
+    return SQL
+
+
+def getTodaysCellCount():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectCompleteByWorkCellDaily()
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
+
+
+
+
+
+
+
+
+
+
+#------------------------------------SPECIAL Functions----------------------------------------------------------
+
+def reformateDate_jobRecord(query):
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.selectDateToUpdate(query)
     c.execute(SQL)
     items = c.fetchall()
     return items
 
 
     
-def updateDateField(record, date):
+def updateDateField(record, date, query):
     conn = make_connection()
     c = conn.cursor()
-    SQL = Q.updateDateFormat(record, date)
+    SQL = Q.updateDateFormat(record, date, query)
     c.execute(SQL)
     conn.commit()
     end_connection(conn)

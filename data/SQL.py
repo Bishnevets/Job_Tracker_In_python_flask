@@ -113,6 +113,24 @@ def SelectJobToUpdate(jobID):
     return SQL
 
 
+
+def SelectCompleteByWorkCellDaily():
+        SQL = "SELECT wc.Cell, Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL += "WHERE jr.Job_Status = 2 "
+        SQL += "AND jr.End_Date  = DATE('now','localtime' ) "
+        # SQL += "AND jr.End_Date  = '2021-01-26' "
+        SQL += "group by jr.Work_Cell;"
+        return SQL
+
+
+
+
+
+
+
+
+
 # -----------------------------------INSERT STATEMENTS-----------------------------------------------------------
 
 
@@ -189,18 +207,44 @@ def UpdateJobRecord(details):
     SQL += "WHERE Job_ID='" + ID + "';"
     return SQL
 
+
+
+
+def UpdateJobNotes(details):
+    ID    = str(details['jobID'])
+    notes = str(details['notes'])
+    SQL = "UPDATE Job_Record "
+    SQL += "SET Notes='" + notes + "' " 
+    SQL += "WHERE Job_ID='" + ID + "';"
+    return SQL
+
+
+
+
+
 # -----------------------------------DELETE STATEMENTS-----------------------------------------------------------
 
 #------------------------------------SPECIAL STATEMENTS----------------------------------------------------------
 
-def selectDateToUpdate():
-       # SQL = "SELECT Job_ID, Start_Date from Job_Record jr"
-        SQL = "SELECT Job_ID, End_Date from Job_Record jr"
+def selectDateToUpdate(query):
+
+        if query == 1:
+            SQL = "SELECT Job_ID, Start_Date from Job_Record jr"
+        elif query == 2:
+            SQL = "SELECT Job_ID, End_Date from Job_Record jr"
+        elif query == 3:
+            SQL = "SELECT Activity_ID, Activity_Date from Activity"
         return SQL
 
-def updateDateFormat(record, date):
+def updateDateFormat(record, date, query):
+    
     id = str(record)
     date = str(date)
-    #SQL = "UPDATE Job_Record SET  Start_Date='" + date +"' WHERE Job_ID='" + id + "';"
-    SQL = "UPDATE Job_Record SET  End_Date='" + date +"' WHERE Job_ID='" + id + "';"
+
+    if query == 1:
+        SQL = "UPDATE Job_Record SET  Start_Date='" + date +"' WHERE Job_ID='" + id + "';"
+    elif query == 2:
+        SQL = "UPDATE Job_Record SET  End_Date='" + date +"' WHERE Job_ID='" + id + "';"
+    elif query == 3:
+        SQL = "UPDATE Activity SET Activity_Date='" + date + "' WHERE Activity_ID='" + id + "';" 
     return SQL

@@ -16,8 +16,19 @@ fieldset{border-width:0; padding:0; margin:0;}
 html,body{
     margin: 0;
     height: 100%;
-    background: #475c7a;
+    /* background: #475c7a; */
+    /* background-color: #7f8184;
+    background-color: #58646B; */
+    background:
+    linear-gradient(
+      rgba(88, 100, 107, 0.85), 
+      rgba(88, 100, 107, 0.85)
+    ),
+    /* bottom, image */
+    url(./images/factory_background.jpg);
    
+    background-attachment:fixed;
+
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
 }
@@ -95,7 +106,7 @@ html,body{
     grid-column: 2/-1;
     grid-row-start: 4;
     display: grid;
-    grid-gap: 5px;
+    grid-row-gap: 20px;
     grid-template-columns: repeat(auto-fit,100%);
     grid-auto-rows:max-content;
     justify-content: center;
@@ -116,7 +127,8 @@ html,body{
 /*= HEADER AREA ================================================================ */
 
 ._header{
-    background: #263238;
+    /* background: #263238; */
+    background-color: #444748;
     color: #f5f5f5;
 }
 
@@ -126,6 +138,7 @@ html,body{
     padding-bottom: 8px;
     align-self: end;
     justify-self: end;
+    font-family: 'Courier New', Courier, monospace;
 }
     
 .header-logo img{
@@ -149,7 +162,9 @@ html,body{
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    background-color: #f5f5f5;
+    /* background-color: #f5f5f5; */
+    background-color: #7f8184;
+    background-color: #e0e4ea;
 }
 
 .top-nav-link{
@@ -165,7 +180,7 @@ html,body{
     height: 100%;
     text-align: center;
     padding: 8px 0;
-    border-radius: 25px 25px 0 0;
+    border-radius: 5apx 5px 0 0;
     transform: translateY(5px);
     
  }
@@ -173,14 +188,16 @@ html,body{
  .top-nav-link a:hover{
     color:#aca2a2;
     background-color: #263238;
+    background-color: #444748;
     transition-duration: .45s;
     transform: translateY(0px);
   }
 
 
   .top-nav-link .tab-active{
-    color:#aca2a2;
-    background-color: #263238;
+    color:#cecece;
+    /* background-color: #263238; */
+    background-color: #444748;
     transition-duration: .45s;
     transform: translateY(0px);
 }
@@ -204,8 +221,10 @@ html,body{
     font-size: 1.3em;
     text-align: center;
     padding-top: 1px;
-    color:#aca2a2;
-    background-color: #263238;
+    color:#cecece;
+    /* background-color: #263238; */
+    background-color: #444748;
+
 }
 /*=============================================================== PAGE TITLE = */
 
@@ -222,6 +241,7 @@ html,body{
 
 ._side-bar-menu{
     background-color: #263238;
+    background-color: #444748;
 }
 
 ._nav{
@@ -247,6 +267,8 @@ html,body{
 .nav_btn a{
     display: inline-block;
     background: #7A536C;
+    background-color: #7D7EDB;
+    background-color: #6A605C;
     margin: 0 auto;
     padding: 1em;
     width: 100%;
@@ -254,6 +276,8 @@ html,body{
 
 .nav_btn a:hover{
 background: #875C77;
+background-color: #DBC45C;
+background-color: #7D7EDB;
 }
 /*============================================================ SIDE BAR MENU = */
 
@@ -262,11 +286,6 @@ background: #875C77;
 
 /*= CONTENT AREA ============================================================ */
 /*============================================================ CONTENT AREA = */
-
-
-
-
-
 
 
 
@@ -696,14 +715,6 @@ font-size: 1.2em;
  font-size: 1.2em;
 }
 
-
-
-
-
-
-
-
-
 .update-label{
     text-align: right;
     font-family: 'Courier New', Courier, monospace;
@@ -718,43 +729,283 @@ font-size: 1.2em;
 }
 
 
+/* VIEW COMPLETED RECORD =================================================================================== */
 
-.content-row-table{
-background-color: #f5f5f5;
-border-radius: 5px 5px 0 0;
+
+
+
+
+
+
+
+
+.content-row-record-view{
+    width: 1125px;
+    /* height: 606px; */
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    display: grid;
+    padding: 36px;
+    grid-row-gap: 24px;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-rows: repeat(8,36px);
+    grid-template-areas:
+    "l1 l1 l1 i1 i1 . nwu nwu nwu nwu nwu nwu"
+    "l2 l2 l2 i2 i2 . nwu nwu nwu nwu nwu nwu"
+    "l3 l3 l3 i3 i3 . nwu nwu nwu nwu nwu nwu"
+    "l4 l4 l4 i4 i4 . nwu nwu nwu nwu nwu nwu"
+    "l5 l5 l5 i5 i5 . nwu nwu nwu nwu nwu nwu"
+    "l6 l6 l6 i6 i6 . nwu nwu nwu nwu nwu nwu"
+    "l7 l7 l7 i7 i7 . nwu nwu nwu nwu nwu nwu"
+    ". . . . . .  back back . . sub sub "
+    ;
 }
-.running-Jobs-table{
-border-collapse: collapse;
-width: 100%;
-margin: 25px 0;
-font-size: 0.9em;
-min-width: 860px;
-background-color: #f5f5f5;
-box-shadow: 0 0 20px rgba(0,0,0, 0.15);
+/* ============= Labels ================= */
+.content-row-record-view > :nth-child(1){
+    grid-area: l1;    /*job name label*/                    
+}
+.content-row-record-view > :nth-child(2){
+    grid-area: l2;  /*compleated by label*/  
+}
+.content-row-record-view > :nth-child(3){
+    grid-area: l3; /*work order by label*/  
+}
+.content-row-record-view > :nth-child(4){
+    grid-area: l4; /*work cell label*/  
+}
+.content-row-record-view > :nth-child(5){
+    grid-area: l5;  /*job type label*/
+}
+.content-row-record-view > :nth-child(6){
+    grid-area: l6; /*job weight label*/ 
+}
+.content-row-record-view > :nth-child(7){
+    grid-area: l7; /*completed date label*/ 
 }
 
-.running-Jobs-table thead tr{
-    background-color: #374946;
-    color: #f5f5f5;
-    text-align: left;
+
+/* ============= Values =============== */
+
+.content-row-record-view > :nth-child(8){
+    grid-area: i1;  /*job name value*/  
+}
+
+
+.content-row-record-view > :nth-child(9){
+    grid-area: i2;  /*operator value*/  
+}
+
+.content-row-record-view > :nth-child(10){
+    grid-area: i3; /*work order value*/
+}
+.content-row-record-view > :nth-child(11){
+    grid-area: i4; /*work cell value*/
+}
+.content-row-record-view > :nth-child(12){
+    grid-area: i5; /*job type value*/
+}
+.content-row-record-view > :nth-child(13){
+    grid-area: i6; /*weight value*/
+}
+
+.content-row-record-view > :nth-child(14){
+    grid-area: i7; /*complete date value*/
+}
+
+
+.content-row-record-view > :nth-child(16){
+    grid-area: sub;
+}
+
+.content-row-record-view > :nth-child(17){
+    grid-area: back;
+}
+
+
+
+.note-wrap-record-view{
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0;
+    height: 394px;
+    grid-area: nwu;
+
+}
+
+.note-wrap-record-view label{
+    font-size: 1.4em;
+    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
 }
 
-.running-Jobs-table th,
-.running-Jobs-table td{
+.note-wrap-record-view textarea{
+    margin-top: 10px;
+    font-size: 1.2em;
+    height: 394px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.form-label-update{
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding-right: 20px;
+}
+
+.content-row-record-view .form-input{
+    min-width: 200px;
+    height: 28px;
+    font-size: 1em;
+}
+
+
+#record-submit{
+    height: 36px;
+    border: none;
+    background: #74da7d;
+    color: #f5f5f5;
+    font-size: 18px;
+}
+
+#record-submit:hover{
+    background: #65BF6D;
+    transition-duration: .8s;
+} 
+
+.record-nav_btn{
+    height: 36px;
+    text-align: center;
+}
+
+
+.record-nav_btn a{
+    height: 36px;
+    display: inline-block;
+    background: #ee3636;
+    padding: .5em;
+    width: 100%;
+    color: #f5f5f5;
+}
+
+.record-nav_btn a:hover{
+background: #d86161f3;
+transition-duration: .8s;
+}
+
+
+
+.record-label{
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+/* =================================================================================== VIEW COMPLETED RECORD */
+
+
+/* GLOBAL TABLE AREA================================================================================== */
+
+.content-row-table{
+    background-color: #f5f5f5;
+    border-radius: 5px 5px 0 0;
+    max-height: 560px;
+    overflow-x: scroll;
+    }
+
+
+.Job-list-table{
+    border-collapse: collapse;
+    width: 100%;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 860px;
+    background-color: #f5f5f5;
+    box-shadow: 0 0 20px rgba(0,0,0, 0.15);
+   
+    }
+
+
+    .table-header form{
+        background:#444748;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100px;
+
+    }
+
+    
+    .table-header form label{
+        color:#f5f5f5;
+    }
+    
+    
+
+    .dateSelect{
+        text-align: right;
+    }
+
+    .dateSelect label, h3{
+        color: #f5f5f5;
+    }
+
+    .count-label, .count-value{
+        align-self: center;
+        
+        text-align: center;
+        padding: 5px;
+        font-size: 1.2em;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .count-value{
+        font-weight: bold;
+    }
+
+    .count-box{
+        border: 1px #f5f5f5 solid;
+        margin-left: 75px;
+        border-radius: 5px;
+    }
+
+    .Job-list-table thead tr{
+        background-color: #444748;
+        color: #f5f5f5;
+        text-align: left;
+        font-weight: bold;
+    }
+
+
+.Job-list-table th,
+.Job-list-table td{
     padding: 12px 15px;
 }
 
-.running-Jobs-table tbody tr{
+.Job-list-table tbody tr{
     border-bottom: 1px solid #dddddd;
 }
 
-.running-Jobs-table tbody tr:nth-of-type(odd){
+.Job-list-table tbody tr:nth-of-type(odd){
     background:#f2f2f2;
 }
 
 
-.running-Jobs-table tbody tr:last-of-type{
+.Job-list-table tbody tr:last-of-type{
     border-bottom: 2px solid #374946;
 }
 
@@ -762,6 +1013,7 @@ box-shadow: 0 0 20px rgba(0,0,0, 0.15);
 .table-sub-button{
     height: 36px;
     background-color: #72aadb;
+    background-color: #8c98a2;
     border: none;
     color:#f5f5f5;
     min-width: 100px;
@@ -770,17 +1022,140 @@ box-shadow: 0 0 20px rgba(0,0,0, 0.15);
 
 .table-sub-button:hover{
     background-color:#5892c5;
+    background-color: #6d7174;
 }
 
 
-.table-header form{
+#range-search-submit{
+background-color: transparent;
+background-image: url(./images/Search_Icon.svg);
+background-size: 30px;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+
+
+.quick_search{
+    flex-grow: 1;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
-.table-header form div{
-padding: 30px 30px 0 0;
+.quick_search button{
+    height: 30px;
+    width: 100px;;
 }
+
+    
+
+/*==================================================================================  GLOBAL TABLE AREA */
+
+
+
+
+
+
+
+
+
+/* RUNNING JOBS TABLE AREA================================================================================== */
+
+
+
+
+/*==================================================================================  RUNNING JOBS TABLE AREA */
+
+
+
+
+
+
+
+
+/* COMPLETE JOBS TABLE AREA================================================================================== */
+
+
+
+
+/*==================================================================================   COMPLETE JOBS TABLE AREA*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .content-row-panels{
@@ -790,7 +1165,7 @@ padding: 30px 30px 0 0;
 
 .panel{
     background: #fff;
-    height: 200px;
+    height: 150px;
     width:275px;
     display: grid;
     grid-template-columns: 1fr;
@@ -827,3 +1202,100 @@ font-size: 1.3em;
 .dashboard-message p{
     padding: 5px 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chart {
+    --scale: 12 ;
+  
+    
+    /* Setup the grid */
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-rows: repeat(var(--scale), minmax(0, 1fr)) 1.4rem;
+    grid-column-gap: 15px;
+  
+    /* Generate background guides */
+    /* (sub-pixel rounding errors make this imperfect) */
+    --line-every: 3;
+    background-image: linear-gradient(to bottom, #ccc 1px, transparent 1px);
+    background-size: 100% calc((100% - 1.4rem) / var(--scale) * var(--line-every));
+    
+    /* other styles… */
+    margin: 2em auto 1em;
+    padding: 0 1em;
+    position: relative;
+    max-width: 70vw;
+    height: calc(50vh - 10em);
+    
+  }
+  
+  .chart::after {
+    background: #f5f5f5;
+    bottom: 0;
+    content: ' ';
+    height: 1.4rem;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+  
+  
+  
+  
+  .cell {
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    grid-row-start: -2;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    color: rgb(95, 93, 93);
+  }
+  
+  
+  /* Each bar on the graph… */
+  /* ---------------------- */
+  
+  .bar {
+    grid-row: var(--start) / -2;
+    
+    /* Background-Color */
+    background-color: #475c7a;
+    /* Other styles… */
+    border-radius: 5px 5px 0 0;
+    list-style: none;
+    position: relative;
+  }
+  
+  .value {
+    background: transparent;
+    bottom: 100%;  
+    display: inline-block;
+    font-size: 1.1em;
+    font-weight: bold;
+    left: 50%;
+    padding: 0 0.4em;
+    position: absolute;
+    transform: translate(-50%, -1px);
+    color: rgb(95, 93, 93);
+  }
+  
+  .content-row-bar-chart{
+      background-color: #f5f5f5;
+  }
+ 
+  
