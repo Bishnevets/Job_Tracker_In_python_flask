@@ -119,9 +119,11 @@ def runningJobs():
 
 # COMPLETED JOBS ROUTE ===================================================================================
 @app.route("/completed_jobs/", methods=['POST','GET'])
-def completedJobs():
+@app.route("/completed_jobs/<query_type>", methods=['POST','GET'])
+def completedJobs(query_type = 'all'):
     page = "THESE JOBS ARE DONE"
-    jobList = DB.getCompletedJobsList()
+    jobList = DB.getCompletedJobsList(query_type)
+    jobCount = len(jobList)
     jobs = []
     for job in jobList:
         jobs.append({
@@ -145,10 +147,45 @@ def completedJobs():
             jobID = request.form['JobID']
             return redirect(url_for('viewComplete', jobID=jobID))
         else:
-            return render_template('completed_jobs.html', jobs=jobs, page=page)
+            return render_template('completed_jobs.html', jobs=jobs, page=page, jobCount=jobCount)
 
-    return render_template('completed_jobs.html', jobs=jobs, page=page)
+    return render_template('completed_jobs.html', jobs=jobs, page=page, jobCount=jobCount)
 #  =================================================================================== COMPLETED JOBS ROUTE
+
+
+
+# TEST LAND ROUTE ===========================================================================================
+@app.route("/test_land/", methods=['POST','GET'])
+def testland():
+    page = "TEST POSTED"
+    query_type = " "
+    if request.method == 'POST':
+        # query_type = request.form['dash-panel-type']
+        query_type = request.form['query-type']
+        return redirect(url_for('completedJobs', query_type=query_type))
+       
+    return render_template('test_land.html', page=page, query_type=query_type)
+# =========================================================================================== TEST LAND ROUTE
+
+# TEST LAND ROUTE ===========================================================================================
+@app.route("/range_search/", methods=['POST','GET'])
+def rangeSearch():
+    page = "RANGE TEST"
+    range_1 = " "
+    range_2 = " "
+    if request.method == 'POST':
+        range_1 = request.form['start_range']
+        range_2 = request.form['end_range']
+        query_type = request.form['query-type']
+        #return redirect(url_for('completedJobs', query_type=query_type, range_1=range_1, range_2=range_2))
+      
+       
+    return render_template('range_search.html', page=page, range_1=range_1, range_2=range_2)
+# =========================================================================================== TEST LAND ROUTE
+
+
+
+
 
 
 

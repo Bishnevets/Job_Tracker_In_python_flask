@@ -1,71 +1,92 @@
- {% extends "layout.html"%}
+{% extends "layout.html"%} {% block body%}
 
-    {% block body%}
+<div class="content-row-table">
+    <div class="table-header">
+        <div class="range-search-complete">
+            <form action="/range_search/" method="POST">
+                <div>
+                    <input id="range-search-submit" class="table-sub-button" type="submit" value=" " />
+                </div>
 
-    <div class="content-row-table">
-            <div class='table-header'>
-                <form class="range-search-complete" action="">  
-                    <div>
-                        <input id="range-search-submit" class="table-sub-button" type="submit" name="" value=' '/>
-                    </div>
+                <table class="dateSelect">
+                    <tr>
+                        <td><label for="filter1">Range Start: </label></td>
+                        <td><input type="date" id="filter1" name="start_range" /></td>
+                    </tr>
 
-                    <table class="dateSelect">
-                        <tr> 
-                        <td><label for="filter1">Range Start: </label></td> 
-                        <td><input type="date" id='filter1'>  </td>  
-                        </tr>   
+                    <tr>
+                        <td><label for="filter1">Range End: </label></td>
+                        <td><input type="date" id="filter1" name="end_range" /></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="query-type" value="range" />
+            </form>
+        </div>
 
-                        <tr>
-                        <td><label for="filter1">Range End: </label></td>  
-                        <td><input type="date" id='filter1'> </td>   
-                        </tr> 
-                    </table>
+        <div class="count-box">
+            <h3 class="count-label">Job Count</h3>
+            <h3 class="count-value">{{jobCount}}</h3>
+        </div>
 
-                    <div class="count-box">
-                        <h3 class="count-label">Job Count</h3>
-                        <h3 class="count-value">23</h3>
-                    </div>
-
-                    <div class="quick_search">
-                        <button>Today</button>
-                        <button>Yesturday</button>
-                        <button>This Week</button>
-                        <button>This Month</button>
-                    </div>
-                
-                 <!-- <div>
-                    <label for="filter1">Operator: </label>
-                    <input type="text" id='filter1'>   
-                 </div> -->
-             </form>   
+        <div class="quick-search">
+            <div class="quick-search-heading">
+                <h2>Quick Search</h2>
             </div>
-            
-    
+
+            <div class="quick-search-forms">
+                <form action="/test_land/" method="POST">
+                    <input type="submit" name="today" value="Today" />
+                    <input type="hidden" name="query-type" value="today" />
+                </form>
+
+                <form action="/test_land/" method="POST">
+                    <input type="submit" name="today" value="Yesturday" />
+                    <input type="hidden" name="query-type" value="yesturday" />
+                </form>
+
+                <form action="/test_land/" method="POST">
+                    <input type="submit" name="today" value="This Week" />
+                    <input type="hidden" name="query-type" value="week" />
+                </form>
+
+                <form action="/test_land/" method="POST">
+                    <input type="submit" name="today" value="This Month" />
+                    <input type="hidden" name="query-type" value="month" />
+                </form>
+
+                <form action="/test_land/" method="POST">
+                    <input type="submit" name="today" value="All" />
+                    <input type="hidden" name="query-type" value="all" />
+                </form>
+            </div>
+        </div>
+    </div>
+
     <table class="Job-list-table">
-       <thead>
-        <tr>
-            <th></th>
-            <th>Job</th>
-            <th>Work order</th>
-            <th>cell</th>
-            <th>Status</th>
-            <th>Weight</th>
-            <th>Complete By</th>
-            <th>Complete On</th>
-        </tr>
-    </thead>
-     
-       <div class="table-body">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Job</th>
+                <th>Work order</th>
+                <th>cell</th>
+                <th>Status</th>
+                <th>Weight</th>
+                <th>Complete By</th>
+                <th>Complete On</th>
+            </tr>
+        </thead>
+
+        <div class="table-body">
             <tbody>
-                {% for job in jobs  %}
+                {% for job in jobs %}
                 <tr>
-                <td class="tbl-link">
-                    <form action="" method="POST">
-                        <input class="table-sub-button" type="submit" name="" value='View Job'/>
-                        <input type="hidden" name="JobID" value="{{job['jobID']}}" />
-                    </form>
-                </td>
-                
+                    <td class="tbl-link">
+                        <form action="" method="POST">
+                            <input class="table-sub-button" type="submit" name="" value="View Job" />
+                            <input type="hidden" name="JobID" value="{{job['jobID']}}" />
+                        </form>
+                    </td>
+
                     <td>{{job['job']}}</td>
                     <td>{{job['workorder']}}</td>
                     <td>{{job['cell']}}</td>
@@ -75,13 +96,9 @@
                     <td>{{job['timestamp']}}</td>
                 </tr>
 
-             {% endfor %}  
+                {% endfor %}
             </tbody>
         </div>
-    </table>       
-
-
+    </table>
 </div>
-      {% endblock %}
- 
-
+{% endblock %}

@@ -108,10 +108,10 @@ def getRunningJobsList():
     return items
 
 
-def getCompletedJobsList():    
+def getCompletedJobsList(query_type):    
     conn = make_connection()
     c = conn.cursor()
-    SQL = Q.SelectCompletedJobList()
+    SQL = Q.SelectCompletedJobList(query_type)
     c.execute(SQL)
     items = c.fetchall()
     end_connection(conn)

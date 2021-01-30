@@ -69,16 +69,75 @@ def SelectRunningJobList():
     return SQL
 
 
-def SelectCompletedJobList():
-    SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
-    SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
-    SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
-    SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
-    SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
-    SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
-    SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
-    SQL += "WHERE jr.Job_Status IN (2) "
-    SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;" 
+def SelectCompletedJobList(query_type):
+    if query_type == 'all':
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2) "
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+
+    elif query_type == 'today':
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  = DATE('now','localtime')"
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+
+    elif query_type == 'week':
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= date('now','localtime', 'weekday 1', '-7 days')"
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+
+    elif query_type == 'month':
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= date('now','localtime','start of month')"
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+
+    elif query_type == 'yesturday':
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  = DATE('now','localtime','-1 days')"
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+    
+    # elif query_type == 'range':
+    #     SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+    #     SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+    #     SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+    #     SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+    #     SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+    #     SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+    #     SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+    #     SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= " + range_1 + " AND jr.End_Date <= " + range_2 + " "
+    #     SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+    else:
+        SQL = "" 
+    
     return SQL
 
 

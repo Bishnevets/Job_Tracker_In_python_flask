@@ -1,4 +1,4 @@
-  
+// DASHBOARD CHARTS =======================================================================
 console.log(cellData)
 var cellLabels = ["Pilot Plant", 
                   "Large Hock", 
@@ -54,8 +54,39 @@ var myChart = new Chart(ctx, {
     }
 });
 
+// ======================================================================= DASHBOARD CHARTS
 
 
+
+
+
+
+
+// DASHBOARD EVENT LISTENER =======================================================================
+dash_panel_completed_today = document.querySelector("#dash-panel-completed-today")
+dash_panel_completed_week = document.querySelector("#dash-panel-completed-week")
+dash_panel_completed_month = document.querySelector("#dash-panel-completed-month")
+
+dash_panel_2 = document.querySelector("#panel_2").addEventListener("click", function(){
+    dash_panel_completed_today.submit();
+    // window.location = "/test_land/"
+   });
+
+dash_panel_3 = document.querySelector("#panel_3").addEventListener("click", function(){
+dash_panel_completed_week.submit();
+    // window.location = "/test_land/"
+   });
+    
+dash_panel_4 = document.querySelector("#panel_4").addEventListener("click", function(){
+dash_panel_completed_month.submit();
+    // window.location = "/test_land/"
+    });
+    
+
+
+
+
+// ======================================================================= DASHBOARD EVENT LISTENER
 
 
 

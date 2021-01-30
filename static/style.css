@@ -931,7 +931,7 @@ transition-duration: .8s;
 .Job-list-table{
     border-collapse: collapse;
     width: 100%;
-    margin: 25px 0;
+    margin:0;
     font-size: 0.9em;
     min-width: 860px;
     background-color: #f5f5f5;
@@ -939,34 +939,73 @@ transition-duration: .8s;
    
     }
 
-
-    .table-header form{
+    .table-header{
+        display: flex;
         background:#444748;
+        padding: 10px 0;
+        justify-content: space-around;
+    }
+    .range-search-complete{
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        height: 100px;
-
+        border-radius: 5px;
+        background-color: #353333;
+        padding: 10px;
+       
     }
 
-    
-    .table-header form label{
-        color:#f5f5f5;
+    .count-box{
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #353333;
     }
-    
-    
 
+
+    .quick-search{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        min-width: 600px;
+        border-radius: 5px;
+        background-color: #353333;
+    }
+
+
+
+    #range-search-submit{
+        background-color: transparent;
+        background-image: url(./images/Search_Icon.svg);
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+        cursor: pointer;
+        }
+        
+
+
+
+    .range-search-complete form{
+        display: flex;
+        justify-content: center;
+    }
+ 
     .dateSelect{
         text-align: right;
     }
 
-    .dateSelect label, h3{
+    .dateSelect label, h3, .quick-search-heading{
         color: #f5f5f5;
+        font-size: 1.2em;
+        font-family: 'Courier New', Courier, monospace;
     }
+
 
     .count-label, .count-value{
         align-self: center;
-        
         text-align: center;
         padding: 5px;
         font-size: 1.2em;
@@ -977,11 +1016,41 @@ transition-duration: .8s;
         font-weight: bold;
     }
 
-    .count-box{
-        border: 1px #f5f5f5 solid;
-        margin-left: 75px;
-        border-radius: 5px;
+
+
+    .quick-search-forms{
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
     }
+    
+
+    .quick-search input{
+        height: 30px;
+        width: 100px;
+        border: none;
+        cursor: pointer;
+        background-color: #fff;
+    }
+    
+    .quick-search input:hover{
+     background-color: #e2dfdf;
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     .Job-list-table thead tr{
         background-color: #444748;
@@ -989,6 +1058,14 @@ transition-duration: .8s;
         text-align: left;
         font-weight: bold;
     }
+
+
+.Job-list-table th{
+    background-color: #444748;
+    position: sticky;
+    top:0;
+}
+
 
 
 .Job-list-table th,
@@ -1026,26 +1103,11 @@ transition-duration: .8s;
 }
 
 
-#range-search-submit{
-background-color: transparent;
-background-image: url(./images/Search_Icon.svg);
-background-size: 30px;
-background-position: center;
-background-repeat: no-repeat;
-}
 
 
 
-.quick_search{
-    flex-grow: 1;
-    display: flex;
-    justify-content: space-evenly;
-}
 
-.quick_search button{
-    height: 30px;
-    width: 100px;;
-}
+
 
     
 
@@ -1170,6 +1232,7 @@ background-repeat: no-repeat;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 66.6666px, 133.33333px;
+    cursor: pointer;
 }
 
 .panel-heading{

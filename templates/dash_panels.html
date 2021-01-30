@@ -10,15 +10,21 @@
       </div>
    </div></a>
 
-   <a href="/completed_jobs"><div class="panel" id="panel_2">
+
+<form action="/test_land/" id="dash-panel-completed-today" method="POST">
+   <div class="panel" id="panel_2">
       <div class="panel-heading">
          <h1>Today</h1>
       </div>
       <div class="panel-value">
          <h1>{{output['dayCount']}}</h1>
       </div>
-   </div></a>
+      <input type="hidden" name="query-type" value="today">
+   </div>
+</form>
 
+
+<form action="/test_land/" id="dash-panel-completed-week" method="POST">
    <div class="panel" id="panel_3">
       <div class="panel-heading">
          <h1>This Week</h1>
@@ -26,8 +32,12 @@
       <div class="panel-value">
          <h1>{{output['weekCount']}}</h1>
       </div>
+      <input type="hidden" name="query-type" value="week">
    </div>
+</form>
 
+   
+<form action="/test_land/" id="dash-panel-completed-month" method="POST">
    <div class="panel" id="panel_4">
       <div class="panel-heading">
          <h1>This Month</h1>
@@ -35,6 +45,9 @@
       <div class="panel-value">
          <h1>{{output['monthCount']}}</h1>
       </div>
+      <input type="hidden" name="query-type" value="month">
    </div>
+</form>
+  
 
 
