@@ -33,17 +33,24 @@
 
         <div class="radio-wrap">
             <h3 class="ckbx-heading">Select Operation</h3>
-            <label for="add_note">Add Note Only</label>
-            <label for="pause">Pause</label>
-            <label for="resume">Resume</label>
-            <label for="abort">Abort</label>
-            <label for="complete">Complete</label>
+            
+            <div class="radio-switch">
+                <input  type="radio" name="action" id="add_note" value="{{job['status ID']}}" checked/>
+                <label for="add_note">Add Note Only</label>
 
-            <input  type="radio" name="action" id="add_note" value="{{job['status ID']}}" checked/>
-            <input  type="radio" name="action" id="pause" value="3"/>
-            <input  type="radio" name="action" id="resume" value="7"/>
-            <input  type="radio" name="action" id="abort" value="5"/>
-            <input  type="radio" name="action" id="complete" value="2"/>
+                <input  type="radio" name="action" id="pause" value="3"/>
+                <label for="pause">Pause</label>
+
+                <input  type="radio" name="action" id="resume" value="7"/>
+                <label for="resume">Resume</label>
+
+                <input  type="radio" name="action" id="abort" value="5"/>
+                <label for="abort">Abort</label>
+
+                <input  type="radio" name="action" id="complete" value="2"/>
+                <label for="complete">Complete</label>
+            </div>
+         
         </div>
 
 
@@ -62,14 +69,13 @@
             {% endfor %}
         </select>
 
-        <select class="form-input"  name="next-operation">
-            <option value="{{job['last op']}}">{{job['last op']}}</option>
-            {% for x in range(10) %}
-                {% if x!=0 %}
-                    <option value="{{x * 10}}">{{x * 10}}</option>
-                {% endif %}
-            {% endfor %}      
+        <select class="form-input" id="opval"  name="next-operation">
+            {% for v in operationValues %}
+                <option value="{{v}}">{{v}}</option>
+            {% endfor %}
+            
 
+    
         </select>
  
         <input id="update-submit"class="submit" type="submit" name="Start_new_job" value="Update Job">
@@ -77,8 +83,10 @@
     </form> <!--end of the row-->
      
     <script>
-        updateMessage = document.querySelector("#update-submit").addEventListener("click", function(){
-    alert("Job has been updated")
+        opVal = document.querySelector("#opval")
+
+        btnComplete = document.querySelector("#complete").addEventListener("click", function(){
+        // opVal.disabled = true;
     });
     </script>
 

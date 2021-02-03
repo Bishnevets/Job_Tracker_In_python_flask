@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from data import DB
+import csv
 
 
 def getUserAlias(id):
@@ -110,3 +111,66 @@ def fixDatabaseDate():
             date = formatDateForDatabase(record[1])
         print(DB.updateDateField(id,date,3))
         print("success")
+
+
+
+#This is for the Jobs complete page
+def setPageMessage(var):
+    heading = "JOBS COMPLETE: "
+    value = var
+    if var.split(',')[0] == 'range':
+        if var.split(',')[1] == var.split(',')[2]:
+            value = var.split(',')[1]
+        else:
+            value = var.split(',')[1]
+            value += " - "
+            value += var.split(',')[2]
+
+    if var == 'month' or var == 'week':
+        value = "this " + var
+
+    return heading + value.upper()
+
+
+
+
+
+    #returns a list of job operations starting with the last recorded
+    #and advancing through 90 which is the last availble operation
+    #operations increment in incremnts of 10
+
+def getAvailableOperationValues(last_op):
+    max_value = 90
+    value = int(last_op)
+    val_list = []
+    while value <= max_value:
+        val_list.append(value)
+        value += 10
+    return val_list
+
+
+
+
+
+
+def runNightReport():
+    now = datetime.now()
+    time = now.strftime('%I-%M-%p')
+    date = now.strftime('%m-%d-%Y')
+
+    path = "S:\\EVERYONE\\SBishop\\Job Tracker Admin\\Reports"
+    reportTemplate = []
+    reportHeadings = ['Name', 'Job', 'Work Order', 'Work Cell', 'Job Type', 'Status', 'weight', 'Last Activity' 'Notes' ]
+    reportRaw = DB.getReport()
+    reportTemplate.append(reportHeadings)
+    for each in reportRaw:
+        reportTemplate.append([each[0],each[1],each[2],each[3],each[4],each[5],each[6],each[8],each[9]])
+
+    filename = "\\NightlyChemOpReport-" + str(date) + "-" + str(time) + ".csv"
+
+
+    outfile = open( path + filename,"w",newline="")
+    outcsv =csv.writer(outfile)
+    outcsv.writerows(reportTemplate)
+    outfile.close()
+

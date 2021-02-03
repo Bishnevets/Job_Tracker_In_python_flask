@@ -5,7 +5,7 @@
 
 
     <!----------------------------- STart NEw JOB -------------------------------------------------->
-    <form action="" method="POST" class="content-row-start-job">
+    <form action="#" method="POST" class="content-row-start-job">
 
         
         <label class="form-label">Operator:</label>
@@ -61,8 +61,17 @@
            <h3 class="ckbx-heading">Does the Job have any of these?</h3>
            <label class="ip-test" for="ip">In-Process Testing</label>
            <label class="pa-test" for="pa"> Pre-adjustments</label>
-           <input class="ckbx-ip" id='ip' type="checkbox" name="in_process_testing" value="1"/>
-           <input class="ckbx-pa" id ='pa'type="checkbox" name="predjustments" value="1"/>
+
+           <label class="switch ckbx-ip">
+                <input  id='ip' type="checkbox" name="in_process_testing" value="1"/>
+                <span class="slider"></span>
+           </label>
+           <label class="switch ckbx-pa">
+                <input id ='pa'type="checkbox" name="predjustments" value="1"/>
+                <span class="slider"></span>
+           </label>
+           
+           
         </div>
 
         <div class="note-wrap">
@@ -76,7 +85,7 @@
 
     <script>
         updateMessage = document.querySelector("#form-submit").addEventListener("click", function(){
-    alert("Job has been Started")
+    // alert("Job has been Started")
     });
     </script>
 

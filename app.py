@@ -26,6 +26,9 @@ app = Flask(__name__)
 
 # DASHBOARD ROUTE =======================================================================================
 @app.route("/", methods=["GET", "POST"])
+@app.route("/home", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
+@app.route("/dashboard", methods=["GET", "POST"])
 def index():
 
     page = "THE DASHBOARD"
@@ -120,8 +123,9 @@ def runningJobs():
 # COMPLETED JOBS ROUTE ===================================================================================
 @app.route("/completed_jobs/", methods=['POST','GET'])
 @app.route("/completed_jobs/<query_type>", methods=['POST','GET'])
+
 def completedJobs(query_type = 'all'):
-    page = "THESE JOBS ARE DONE"
+    page = util.setPageMessage(query_type)
     jobList = DB.getCompletedJobsList(query_type)
     jobCount = len(jobList)
     jobs = []
@@ -160,14 +164,13 @@ def testland():
     page = "TEST POSTED"
     query_type = " "
     if request.method == 'POST':
-        # query_type = request.form['dash-panel-type']
         query_type = request.form['query-type']
         return redirect(url_for('completedJobs', query_type=query_type))
        
     return render_template('test_land.html', page=page, query_type=query_type)
 # =========================================================================================== TEST LAND ROUTE
 
-# TEST LAND ROUTE ===========================================================================================
+# RANGE SEARCH ROUTE ===========================================================================================
 @app.route("/range_search/", methods=['POST','GET'])
 def rangeSearch():
     page = "RANGE TEST"
@@ -177,10 +180,12 @@ def rangeSearch():
         range_1 = request.form['start_range']
         range_2 = request.form['end_range']
         query_type = request.form['query-type']
-        #return redirect(url_for('completedJobs', query_type=query_type, range_1=range_1, range_2=range_2))
+
+        query_type += "," + range_1 + "," + range_2
+        return redirect(url_for('completedJobs', query_type=query_type))
       
        
-    return render_template('range_search.html', page=page, range_1=range_1, range_2=range_2)
+    return render_template('range_search.html', page=page, query_type=query_type)
 # =========================================================================================== TEST LAND ROUTE
 
 
@@ -265,9 +270,15 @@ def newJobform():
 
 
             DB.startJob(newRecord)
-            page = "Job Added"
-            return redirect(url_for('index'))
-            # return  render_template('new_job_success.html',newRecord=newRecord, page=page)
+            page = "JOB ADDED"
+
+
+            newRecord['operator'] = DB.getOperatorByID(newRecord['operator'])
+
+           
+
+            #return redirect(url_for('index'))
+            return  render_template('new_job_success.html',newRecord=newRecord, page=page)
            
         else:
             return render_template('new_job.html', oplist=oplist,typeList=typeList,workcellList=workcellList, page=page)
@@ -298,7 +309,6 @@ def jobSuccess():
 # UPDATE JOB ROUTE ===========================================================================================
 @app.route("/update_job/<jobID>", methods=["GET", "POST"])
 def updateJob(jobID):
-   
     page = "UPDATE WORK IN PROCESS"
     oplist = DB.getActiveOperators()
     typeList = DB.getJobType()
@@ -323,34 +333,46 @@ def updateJob(jobID):
     'last activity': result[0][15],
     }
 
+    operationValues = util.getAvailableOperationValues(job['last op'])
+    # #to be passed to the next operation combo box
+    
 
     errors = True
-
+    
+    
     if request.method == 'POST':
         errors = False
-
+        
         if not request.form['action']:
             errors = True
-        
+            
         if not request.form['operator']:
             errors = True
-
+            
         if not request.form['next-operation']:
             errors = True
+            
 
         if not errors:
-            
+
+
+
             now = datetime.now()
             time = now.strftime('%I:%M %p')
             date = now.strftime('%Y-%m-%d')
             dbNotes = job['notes']
             pageNotes = request.form['notes']
             OperatorID = request.form['operator']
+            nextOperation = request.form['next-operation']
             action = request.form['action']
             status = action
 
             if action == "7":
                 status = 1
+
+            if action == "2":
+                nextOperation = DB.getFinalOperationByID(job['job ID'])
+                
                 
 
             if(util.textHasChanged(dbNotes,pageNotes)):
@@ -368,33 +390,43 @@ def updateJob(jobID):
                 'notes' : addNote,
                 'time' : time,
                 'date' : date,
-                'operation' : request.form['next-operation'],
+                'operation' : nextOperation,
                 'operator' : request.form['operator']
             }
-            DB.logActivity(details)
 
+            DB.logActivity(details)
             if not(request.form['action'] == '2') and not(request.form['action'] == '5'):
                 time = ''
                 date = ''
             
             DB.updateJobRecord(details)
 
-        # return redirect(url_for('updateJobSuccess'))
-        return redirect(url_for('index'))
+            details['job'] = job['job name']
+            details['work order'] = job['work order']
+            details['operator'] = DB.getOperatorByID(details['operator'])
+            details['status'] = DB.getStatusByID(details['status'])
+           
+
+            page = "UPDATE SUCCESS"
+            return render_template('update_job_success.html',details=details, page=page)
+        
+        #return redirect(url_for('index'))
 
     else:
-        return render_template('update_job.html',job=job, oplist=oplist, page=page)
+        return render_template('update_job.html',job=job, oplist=oplist, page=page, operationValues=operationValues)
 
-    return render_template('update_job.html',job=job, oplist=oplist, page=page)
+    return render_template('update_job.html',job=job, oplist=oplist, page=page, operationValues=operationValues)
 # =========================================================================================== UPDATE JOB ROUTE
 
 
 
 
 # JOB UPDATE SUCCESS ROUTE ===========================================================================================
+
 @app.route("/update_job_success/", methods=['POST','GET'])
 def updateJobSuccess():
     page = "UPDATE SUCCESSFUL"
+
     return render_template('update_job_success.html', page=page)
 # =========================================================================================== JOB UPDATE SUCCESS ROUTE
 
@@ -465,6 +497,19 @@ def viewComplete(jobID):
     return render_template('job_record.html',job=job, oplist=oplist, page=page)
 # =========================================================================================== VIEW JOB RECORD ROUTE
 
+
+
+# NIGHTLY REPORTS  ===========================================================================================
+@app.route("/report/", methods=['POST','GET'])
+def report():
+    page = "Nightly REPORT"
+
+    util.runNightReport()
+
+    return render_template('report.html', page=page)
+
+
+#   =========================================================================================== NIGHTLY REPORTS
 
 
 

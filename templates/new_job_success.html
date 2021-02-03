@@ -1,16 +1,27 @@
 {% extends "layout.html"%}
 {% block body%}   
 
-<!-- 
-<div class="content-col">
 
-<h1>New Job Started Successfully</h1>
-<p>Job: {{newRecord['job']}}</p>
-<p>Work order: {{newRecord['workOrder']}}</p>
-<p>Time: {{newRecord['startDate'] + ' ' + newRecord['startTime']}}</p>
-<p><a href="/">back to dashboard</a></p>
+
+<div class="content-col job-success">
+    <div>
+        <h1>New Job Started Successfully</h1>
+    </div>
+   
+    <div>
+        <p>Job: {{newRecord['operator']}}</p>
+        <p>Job: {{newRecord['job']}}</p>
+        <p>Work order: {{newRecord['workOrder']}}</p>
+        <p>Time: {{newRecord['startDate'] + ' ' + newRecord['startTime']}}</p>
+    </div>
+   
+    <div class="home-link">
+        <a href="/">back to dashboard</a>
+    </div>
 
 </div>
 
- -->
+
+
+
 {% endblock%}

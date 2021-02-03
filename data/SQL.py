@@ -15,7 +15,7 @@ def SelectCompleteTodayCount():
 
 def SelectCompleteThisWeekCount():
     SQL = "SELECT Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr " 
-    SQL += "WHERE jr.Job_Status = 2 AND jr.End_Date  >= date('now','localtime', 'weekday 1', '-7 days');"
+    SQL += "WHERE jr.Job_Status = 2 AND jr.End_Date  >= date('now','localtime', 'weekday 0', '-7 days');"
     return SQL
 
 
@@ -27,6 +27,10 @@ def SelectCompleteThisMonthCount():
 
 def  SelectLastJobRecord():
     SQL = "SELECT Max(Job_ID) FROM Job_Record jr;"
+    return SQL
+
+def SelectFinalOperation(id):
+    SQL = "SELECT Last_Operation from Job_Record jr Where Job_ID = '" + str(id) + "'"
     return SQL
 
 def SelectJobType():    
@@ -45,6 +49,12 @@ def SelectOperatorByID(id):
 def SelectNotesByID(id):
     SQL = "SELECT Notes FROM Job_Record jr WHERE jr.Job_ID = '" + str(id) + "'"
     return SQL
+
+
+def SelectStatusById(id):
+    SQL = "SELECT status FROM Job_Status WHERE Status_ID = '" + str(id) + "'"
+    return SQL
+
 
 def SelectActiveOperators():
     SQL = "SELECT o.Operator_ID, o.First_Name || ' ' || o.Last_Name AS [Name], ds.Shift, os.Status "
@@ -100,7 +110,7 @@ def SelectCompletedJobList(query_type):
         SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
         SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
         SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
-        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= date('now','localtime', 'weekday 1', '-7 days')"
+        SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= date('now','localtime', 'weekday 0', '-7 days')"
         SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
 
     elif query_type == 'month':
@@ -114,7 +124,7 @@ def SelectCompletedJobList(query_type):
         SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= date('now','localtime','start of month')"
         SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
 
-    elif query_type == 'yesturday':
+    elif query_type == 'yesterday':
         SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
         SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
         SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
@@ -125,16 +135,18 @@ def SelectCompletedJobList(query_type):
         SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  = DATE('now','localtime','-1 days')"
         SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
     
-    # elif query_type == 'range':
-    #     SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
-    #     SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
-    #     SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
-    #     SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
-    #     SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
-    #     SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
-    #     SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
-    #     SQL += "WHERE jr.Job_Status IN (2) AND jr.End_Date  >= " + range_1 + " AND jr.End_Date <= " + range_2 + " "
-    #     SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
+    elif query_type.split(',')[0] == 'range':
+        range_1 = query_type.split(',')[1]
+        range_2 = query_type.split(',')[2]
+        SQL = "SELECT jr.Job_ID, jr.Job, jr.Work_Order, wc.Cell, js.Status, Job_Weight AS [Weight], "
+        SQL += "MAX(a.Activity_ID) AS [Activity ID], o.First_Name || ' '|| o.Last_Name AS [Current Operator], "
+        SQL += "jr.End_Date || ' ' || jr.End_Time AS [Completed On]"
+        SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID "
+        SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+        SQL +=  "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+        SQL +=  "JOIN Operators o On a.Operator = o.Operator_ID " 
+        SQL += "WHERE jr.Job_Status IN (2)  AND jr.End_Date  >= '" + range_1 + "' AND jr.End_Date <= '" + range_2+ "' "
+        SQL += "GROUP BY a.Job_Id ORDER BY jr.End_Date DESC;"
     else:
         SQL = "" 
     
@@ -181,6 +193,29 @@ def SelectCompleteByWorkCellDaily():
         # SQL += "AND jr.End_Date  = '2021-01-26' "
         SQL += "group by jr.Work_Cell;"
         return SQL
+
+
+
+
+
+
+def SelectNightlyReportQuerey():
+    SQL =  "SELECT o.First_Name || ' '|| o.Last_Name AS [Name], "
+    SQL += "jr.Job, jr.Work_Order, wc.Cell, jc.'Type' , js.Status, Job_Weight AS [Weight], "
+    SQL += "MAX(a.Activity_ID) AS [Activity ID], a.Activity_Date ||' '|| a.Activity_Time AS [Last Activity], "
+    SQL += "jr.Notes " 
+    SQL += "FROM Job_Record jr JOIN Activity a on a.Job_Id = jr.Job_ID " 
+    SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell "
+    SQL += "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
+    SQL += "JOIN Job_Categories jc on jc.Type_ID = jr.Job_Type "
+    SQL += "JOIN Operators o On a.Operator = o.Operator_ID "
+    SQL += "AND a.Activity_Date = DATE('now','localtime','-6 days') "
+    SQL += "AND o.Shift = 2 "
+    SQL += "GROUP BY a.Job_Id;"
+    return SQL
+
+
+
 
 
 

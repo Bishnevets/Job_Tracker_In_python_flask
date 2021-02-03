@@ -4,10 +4,23 @@
 
 {% block body%}   
 
-<!-- <div class="content-col">
-    <h1>Job Updated Successfully</h1>
-    <p><a href="/">back to dashboard</a></p>
+<div class="content-col job-success">
+    <div>
+        <h1>Job Updated Successfully</h1>
+    </div>
+   
+    <div>
+        <p><span>Operator:</span> {{details['operator']}}</p>
+        <p><span>Job:</span> {{details['job']}}</p>
+        <p><span>Work Order:</span> {{details['work order']}}</p>
+        <p><span>Job Status:</span> {{details['status']}}</p>
+    </div>
+   
+    <div class="home-link">
+        <a href="/">back to dashboard</a>
+    </div>
+
 </div>
- -->
+ 
 
 {% endblock%}

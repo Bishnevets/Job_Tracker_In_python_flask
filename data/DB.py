@@ -6,6 +6,7 @@ import data.SQL as Q
 def make_connection():
     connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db" #home
     #connection_String = "C:\\Users\\stephenb\\Desktop\\project x\\data\\JT_DATA.db" #work
+   
     return sqlite3.connect(connection_String)
 
 def end_connection(conn):
@@ -129,6 +130,28 @@ def getOperatorByID(id):
     return value
 
 
+def getFinalOperationByID(id):    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectFinalOperation(id)
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
+
+
+
+
+def getStatusByID(id):    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectStatusById(id)
+    c.execute(SQL)
+    value = c.fetchone()[0]
+    end_connection(conn)
+    return value
+
+
 
 def setUpdateForm(JobID):
     conn = make_connection()
@@ -180,6 +203,14 @@ def getTodaysCellCount():
 
 
 
+def getReport():    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectNightlyReportQuerey()
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
 
 
 
