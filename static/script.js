@@ -1,3 +1,13 @@
+$(document).ready(function(){
+    var term = document.querySelector('#searchTerm');
+    var page = "/searchTemplate/=?" + term.value
+    term.onkeyup = function() {
+    alert(page)
+    // $.get( page + term.value,function(data){
+    //     document.querySelector('ul').innerHTML = data;
+    // });
+};
+});
 // DASHBOARD CHARTS =======================================================================
 console.log(cellData)
 var cellLabels = ["Pilot Plant", 
@@ -82,7 +92,6 @@ dash_panel_completed_month.submit();
     // window.location = "/test_land/"
     });
     
-
 
 
 

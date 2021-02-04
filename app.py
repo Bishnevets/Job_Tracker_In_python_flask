@@ -512,6 +512,51 @@ def report():
 #   =========================================================================================== NIGHTLY REPORTS
 
 
+# SEARCH ===========================================================================================
+@app.route("/search", methods=['POST','GET'])
+def search():
+    page = "SEAECH"
+
+    words = []
+    theList = ['house', 'car', 'boat','cat', 'dog', 'wife', 'chair', 'sink','bathroom']
+    
+    q = request.args.get("q")
+
+    if not q:
+        q =" "
+
+    for word in theList:
+        if word.startswith(q):
+            words.append(word)
+    
+    return render_template('search.html', page=page, words=words)
+
+
+
+
+@app.route("/searchTemplate", methods=['POST','GET'])
+def searcht():
+
+
+    # words = []
+    # theList = ['house', 'car', 'boat','cat', 'dog', 'wife', 'chair', 'sink','bathroom']    
+    # q = request.args.get("q")
+
+    # if not q:
+    #     q =" "
+
+    # for word in theList:
+    #     if word.startswith(q):
+    #         words.append(word)
+    
+    return render_template('searchTemplate.html')
+    
+    
+
+
+#   =========================================================================================== NIGHTLY REPORTS
+
+
 
 # RUN PROGRAM ===========================================================================================
 

@@ -209,7 +209,7 @@ def SelectNightlyReportQuerey():
     SQL += "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
     SQL += "JOIN Job_Categories jc on jc.Type_ID = jr.Job_Type "
     SQL += "JOIN Operators o On a.Operator = o.Operator_ID "
-    SQL += "AND a.Activity_Date = DATE('now','localtime','-6 days') "
+    SQL += "AND a.Activity_Date = DATE('now','localtime') "
     SQL += "AND o.Shift = 2 "
     SQL += "GROUP BY a.Job_Id;"
     return SQL
