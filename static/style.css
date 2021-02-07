@@ -1474,6 +1474,85 @@ font-size: 1.3em;
       background-color: #f5f5f5;
   }
  
+
+
+/* rework charts */
+.content-row-pie-chart-reworks{
+display: flex;
+background-color: #f5f5f5;
+flex-direction: column;
+justify-content: space-evenly;
+
+}
+
+
+
+
+.rework-charts{
+    display: flex;
+    justify-content: space-evenly;
+  
+    
+}
+
+.rework-chart-heading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.rework-chart-heading h1{
+font-size: 1.3em;
+font-family: 'Courier New', Courier, monospace;
+font-weight: bold;
+margin-bottom: 10px;
+}
+.rework-chart-heading > div{
+    display: flex;
+    width: 30%;
+    justify-content: space-evenly;
+   
+    height: 24px;
+    align-items: center;
+
+}
+
+
+.rework-charts > div{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    
+}
+
+
+.rw-normal{
+background-color: #95cbf0;
+
+padding: 5px;
+color: #8a8585;
+width: 100px;
+text-align: center;
+}
+.rw-rework{
+background-color: #faacbc;
+padding: 5px;
+color: #8a8585;
+width: 100px;
+text-align: center;
+}
+.rw-doe{
+background-color: #fae1a5;
+padding: 5px;
+color: #8a8585;
+width: 100px;
+text-align: center;
+}
+
+
+
   /* job successf */
   .job-success{
       color: #f5f5f5;

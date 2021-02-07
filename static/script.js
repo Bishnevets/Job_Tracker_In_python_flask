@@ -1,14 +1,4 @@
-$(document).ready(function(){
-    var term = document.querySelector('#searchTerm');
-    var page = "/searchTemplate/=?" + term.value
-    term.onkeyup = function() {
-    alert(page)
-    // $.get( page + term.value,function(data){
-    //     document.querySelector('ul').innerHTML = data;
-    // });
-};
-});
-// DASHBOARD CHARTS =======================================================================
+// DASHBOARD CHARTS CELLS ===================================================================
 console.log(cellData)
 var cellLabels = ["Pilot Plant", 
                   "Large Hock", 
@@ -60,11 +50,204 @@ var myChart = new Chart(ctx, {
                     beginAtZero: true
                 }
             }]
+        },
+        legend: {
+            display: false
         }
     }
 });
 
-// ======================================================================= DASHBOARD CHARTS
+// ================================================================== DASHBOARD CHARTS CELLS
+
+
+
+
+// DASHBOARD CHARTS JOB TYPES =================================================================
+var typeLabels = ["Normal", 
+                  "Rework", 
+                  "DOE"];
+
+var ctx = document.getElementById('reworkchart-day').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: typeLabels,
+        datasets: [{
+            label: 'Job Cells',
+            // data: JSON.parse(typeData),
+            data: JSON.parse(typeCountDay),
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    
+    options: {
+        legend: {
+            display: false
+        },
+        title: {
+            display: true,
+            text: 'Today'
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+      plugins: {
+        labels: {
+          render: 'percentage',
+          fontColor: ['#444748', 'red', '#444748'],
+          precision: 0
+        }
+      }
+
+    }
+});
+
+
+
+var ctx = document.getElementById('reworkchart-week').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: typeLabels,
+        datasets: [{
+            label: 'Job Cells',
+            // data: JSON.parse(typeData),
+            data: JSON.parse(typeCountWeek),
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        title: {
+            display: true,
+            text: 'This Week'
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+      plugins: {
+        labels: {
+          render: 'percentage',
+          fontColor: ['#444748', 'red', '#444748'],
+          precision: 0
+        }
+      }
+
+    }
+});
+
+
+
+var ctx = document.getElementById('reworkchart-month').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: typeLabels,
+        datasets: [{
+            label: 'Job Cells',
+            // data: JSON.parse(typeData),
+            data: JSON.parse(typeCountMonth) ,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        title: {
+            display: true,
+            text: 'This Month'
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+      plugins: {
+        labels: {
+          render: 'percentage',
+          fontColor: ['#444748', 'red', '#444748'],
+          precision: 0
+        }
+      }
+
+    }
+});
+
+
+var ctx = document.getElementById('reworkchart-year').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: typeLabels,
+        datasets: [{
+            label: 'Job Cells',
+            // data: JSON.parse(typeData),
+            data: JSON.parse(typeCountYear),
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        title: {
+            display: true,
+            text: 'This Year'
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+      plugins: {
+        labels: {
+          render: 'percentage',
+          fontColor: ['#444748', 'red', '#444748'],
+          precision: 0
+        }
+      }
+
+    }
+});
+
+
+// =================================================================DASHBOARD CHARTS JOB TYPES
+
 
 
 
@@ -92,6 +275,7 @@ dash_panel_completed_month.submit();
     // window.location = "/test_land/"
     });
     
+
 
 
 

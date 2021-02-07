@@ -209,7 +209,7 @@ def SelectNightlyReportQuerey():
     SQL += "JOIN Job_Status js ON js.Status_ID = jr.Job_Status "
     SQL += "JOIN Job_Categories jc on jc.Type_ID = jr.Job_Type "
     SQL += "JOIN Operators o On a.Operator = o.Operator_ID "
-    SQL += "AND a.Activity_Date = DATE('now','localtime') "
+    SQL += "AND a.Activity_Date = DATE('now','localtime','-6 days') "
     SQL += "AND o.Shift = 2 "
     SQL += "GROUP BY a.Job_Id;"
     return SQL
@@ -217,11 +217,117 @@ def SelectNightlyReportQuerey():
 
 
 
+def selectCountAggregates():
+    SQL = "SELECT jr.End_Date, wc.Cell, Count(Job_ID ) AS [Jobs complete today] FROM Job_Record jr "
+    SQL += "JOIN Work_Cells wc ON wc.Cell_ID = jr.Work_Cell " 
+    SQL += "WHERE jr.Job_Status = 2 "
+    SQL += "group by jr.End_Date, wc.Cell; "
+    return SQL
 
 
 
 
+def SelectJobTypeCount(routing):
+    SQL = ""
 
+    # Normal Day
+    if routing == 0:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 1 "
+        SQL += "AND Job_Status IN (1,2,3) "
+        SQL += "AND JR.End_Date = DATE('now','localtime');"
+
+    # rework Day
+    if routing == 1:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 2 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date = DATE('now','localtime');"
+
+    # DOE Day
+    if routing == 2:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 3 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date = DATE('now','localtime');"
+
+
+        
+    # Normal week
+    if routing == 3:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 1 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime', 'weekday 0', '-7 days');"
+    # rework week
+    if routing == 4:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 2 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime', 'weekday 0', '-7 days');"
+    # DOE week
+    if routing == 5:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 3 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime', 'weekday 0', '-7 days');"
+    
+    
+    
+    # Normal Month
+    if routing == 6:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 1 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of month');"
+    # Rework Month
+    if routing == 7:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 2 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of month');"
+    # DOE Month
+    if routing == 8:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 3 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of month');"
+   
+   
+   
+   
+   # Normal Year
+    if routing == 9:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 1 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of year');"
+    # Rework Year
+    if routing == 10:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 2 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of year');"
+    # DOE Year
+    if routing == 11:
+        SQL = "SELECT count(Job_ID) " 
+        SQL += "FROM Job_Record jr "
+        SQL += "WHERE Job_Type = 3 "
+        SQL += "AND Job_Status = 2 "
+        SQL += "AND JR.End_Date >= date('now','localtime','start of year');"
+    
+    return SQL
 
 
 
@@ -342,3 +448,33 @@ def updateDateFormat(record, date, query):
     elif query == 3:
         SQL = "UPDATE Activity SET Activity_Date='" + date + "' WHERE Activity_ID='" + id + "';" 
     return SQL
+
+
+
+
+
+
+
+
+
+
+
+
+    
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [Large Hock] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 1 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [Pilot Hock] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 2 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [2 Gal Ross] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 3 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [10 Gal Ross] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 4 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [40 Gal Ross] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 5 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [100 Gal Ross] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 6 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [Mezz Tank] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 7 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [Activator] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 8 Group by jr.End_Date ORDER BY jr.End_Date DESC;
+
+# SELECT jr.End_Date, COUNT(jr.Job_ID) AS [1/2 Gal Ross] FROM Job_Record jr WHERE jr.Job_Status = 2 AND jr.Work_Cell = 7 Group by jr.End_Date ORDER BY jr.End_Date DESC;

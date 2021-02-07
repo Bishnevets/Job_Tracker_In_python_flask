@@ -1,3 +1,5 @@
+# export FLASK_ENV=development
+
 # date = (now.strftime('%A %B %d, %Y'))
 
 

@@ -160,11 +160,11 @@ def runNightReport():
 
     path = "S:\\EVERYONE\\SBishop\\Job Tracker Admin\\Reports"
     reportTemplate = []
-    reportHeadings = ['Name', 'Job', 'Work Order', 'Work Cell', 'Job Type', 'Status', 'weight', 'Last Activity' 'Notes' ]
+    reportHeadings = ['Name', 'Job', 'Work Order', 'Work Cell', 'Job Type', 'Status', 'weight', 'Notes' ]
     reportRaw = DB.getReport()
     reportTemplate.append(reportHeadings)
     for each in reportRaw:
-        reportTemplate.append([each[0],each[1],each[2],each[3],each[4],each[5],each[6],each[8],each[9]])
+        reportTemplate.append([each[0],each[1],each[2],each[3],each[4],each[5],each[6],each[9]])
 
     filename = "\\NightlyChemOpReport-" + str(date) + "-" + str(time) + ".csv"
 

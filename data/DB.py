@@ -4,9 +4,9 @@ import csv
 import data.SQL as Q
 
 def make_connection():
-    connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db" #home
-    #connection_String = "C:\\Users\\stephenb\\Desktop\\project x\\data\\JT_DATA.db" #work
-   
+    #connection_String = "C:\\Users\\sbish\\Desktop\\project x\\data\\JT_DATA.db" #home
+    connection_String = "C:\\Users\\stephenb\\Desktop\\project x\\data\\JT_DATA.db" #work
+
     return sqlite3.connect(connection_String)
 
 def end_connection(conn):
@@ -203,6 +203,17 @@ def getTodaysCellCount():
 
 
 
+def getCellCountAggregets():
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.selectCountAggregates()
+    c.execute(SQL)
+    items = c.fetchall()
+    end_connection(conn)
+    return items
+
+
+
 def getReport():    
     conn = make_connection()
     c = conn.cursor()
@@ -214,6 +225,14 @@ def getReport():
 
 
 
+def getJobTypeCount(routing):    
+    conn = make_connection()
+    c = conn.cursor()
+    SQL = Q.SelectJobTypeCount(routing)
+    c.execute(SQL)
+    items = c.fetchone()
+    end_connection(conn)
+    return items
 
 
 

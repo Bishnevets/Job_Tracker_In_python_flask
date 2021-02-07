@@ -39,6 +39,47 @@ def index():
     weekCount = DB.getJobsCompleteThisWeek()
     monthCount = DB.getJobsCompleteThisMonth()
 
+
+    typeCountSet = {
+        'day':[0,0,0],
+        'week':[0,0,0],
+        'month':[0,0,0],
+        'year':[0,0,0]
+    }
+
+    typeCountDay = []            
+    typeCountSet['day'][0] = DB.getJobTypeCount(0)[0]
+    typeCountSet['day'][1] = DB.getJobTypeCount(1)[0]
+    typeCountSet['day'][2] = DB.getJobTypeCount(2)[0]
+    for each in typeCountSet['day']:
+        typeCountDay.append(each)
+
+    typeCountWeek = []  
+    typeCountSet['week'][0] = DB.getJobTypeCount(3)[0]
+    typeCountSet['week'][1] = DB.getJobTypeCount(4)[0]
+    typeCountSet['week'][2] = DB.getJobTypeCount(5)[0]
+    for each in typeCountSet['week']:
+        typeCountWeek.append(each)
+
+    typeCountMonth = []  
+    typeCountSet['month'][0] = DB.getJobTypeCount(6)[0]
+    typeCountSet['month'][1] = DB.getJobTypeCount(7)[0]
+    typeCountSet['month'][2] = DB.getJobTypeCount(8)[0]
+    for each in typeCountSet['month']:
+        typeCountMonth.append(each)
+
+    typeCountYear = []  
+    typeCountSet['year'][0] = DB.getJobTypeCount(9)[0]
+    typeCountSet['year'][1] = DB.getJobTypeCount(10)[0]
+    typeCountSet['year'][2] = DB.getJobTypeCount(11)[0]
+    for each in typeCountSet['year']:
+        typeCountYear.append(each)
+
+
+
+
+
+# Bar Chart=========================================
     CellOBJ = {
         "Large Hock": 0,
         "Pilot Hock": 0,
@@ -52,12 +93,22 @@ def index():
     }
 
     cellcount = DB.getTodaysCellCount()
-
     for cell in cellcount:
      CellOBJ[cell[0]] = cell[1]
      print(CellOBJ[cell[0]])
 
-    cellData = [CellOBJ["Pilot Hock"],CellOBJ["Large Hock"],CellOBJ["1/2 Gal Ross"],CellOBJ["2 Gal Ross"],CellOBJ["10 Gal Ross"],CellOBJ["40 Gal Ross"],CellOBJ["100 Gal Ross"],CellOBJ["Mezz Tank"],CellOBJ["Activator"]]
+    cellData = [CellOBJ["Pilot Hock"],
+                CellOBJ["Large Hock"],
+                CellOBJ["1/2 Gal Ross"],
+                CellOBJ["2 Gal Ross"],
+                CellOBJ["10 Gal Ross"],
+                CellOBJ["40 Gal Ross"],
+                CellOBJ["100 Gal Ross"],
+                CellOBJ["Mezz Tank"],
+                CellOBJ["Activator"]]
+# Bar Chart =========================================
+
+
 
     output = {
         'runningJobs' : runningJobs,
@@ -70,7 +121,11 @@ def index():
                             output=output, 
                             page=page, 
                             today=today,
-                            cellData = json.dumps(cellData)
+                            cellData = json.dumps(cellData),
+                            typeCountDay = json.dumps(typeCountDay),
+                            typeCountWeek = json.dumps(typeCountWeek),
+                            typeCountMonth = json.dumps(typeCountMonth),
+                            typeCountYear = json.dumps(typeCountYear)    
                             )
 # ======================================================================================== DASHBOARD ROUTE
 
@@ -252,7 +307,7 @@ def newJobform():
 
             newRecord = {
                 'operator': request.form['operator'],
-                'job': request.form['job_name'],
+                'job': request.form['job_name'].upper(),
                 'workOrder': request.form['work_order'],
                 'workCell' : request.form['work_cell'],
                 'jobType' : request.form['job_type'],
@@ -372,16 +427,25 @@ def updateJob(jobID):
 
             if action == "2":
                 nextOperation = DB.getFinalOperationByID(job['job ID'])
+                alias = util.getUserAlias(OperatorID)
+                notes = pageNotes
+                addNote = util.appendTimeStamp(alias,notes,'Job Completed')
                 
                 
-
+            # Note Handling
             if(util.textHasChanged(dbNotes,pageNotes)):
                 alias = util.getUserAlias(OperatorID)
                 notes = pageNotes
-                addNote = util.appendTimeStamp(alias,notes)
+                if action == "2":
+                    addNote = util.appendTimeStamp(alias,notes,'Job Completed')
+                else:
+                    addNote = util.appendTimeStamp(alias,notes)
             else:
-                addNote = dbNotes
-           
+                if action == "2":
+                    alias = util.getUserAlias(OperatorID)
+                    addNote = util.appendTimeStamp(alias,dbNotes,'Job Completed')
+                else:
+                    addNote = dbNotes
            
             details = {
                 'jobID': job['job ID'],
@@ -507,51 +571,6 @@ def report():
     util.runNightReport()
 
     return render_template('report.html', page=page)
-
-
-#   =========================================================================================== NIGHTLY REPORTS
-
-
-# SEARCH ===========================================================================================
-@app.route("/search", methods=['POST','GET'])
-def search():
-    page = "SEAECH"
-
-    words = []
-    theList = ['house', 'car', 'boat','cat', 'dog', 'wife', 'chair', 'sink','bathroom']
-    
-    q = request.args.get("q")
-
-    if not q:
-        q =" "
-
-    for word in theList:
-        if word.startswith(q):
-            words.append(word)
-    
-    return render_template('search.html', page=page, words=words)
-
-
-
-
-@app.route("/searchTemplate", methods=['POST','GET'])
-def searcht():
-
-
-    # words = []
-    # theList = ['house', 'car', 'boat','cat', 'dog', 'wife', 'chair', 'sink','bathroom']    
-    # q = request.args.get("q")
-
-    # if not q:
-    #     q =" "
-
-    # for word in theList:
-    #     if word.startswith(q):
-    #         words.append(word)
-    
-    return render_template('searchTemplate.html')
-    
-    
 
 
 #   =========================================================================================== NIGHTLY REPORTS

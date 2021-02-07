@@ -1,7 +1,13 @@
 
   <script>
     var cellData = JSON.parse('{{ cellData | tojson }}')
+    var typeCountDay = JSON.parse('{{ typeCountDay | tojson }}')
+    var typeCountWeek = JSON.parse('{{ typeCountWeek | tojson }}')
+    var typeCountMonth = JSON.parse('{{ typeCountMonth | tojson }}')
+    var typeCountYear = JSON.parse('{{ typeCountYear | tojson }}')
+
  </script>
+
 <div class="dashboard-message">
     <P>Today is: {{today}}</P>
     <P>We are Open for Business</P>
@@ -15,6 +21,13 @@
 <div class="content-row-bar-chart">
     {% include "dash_bar_chart.html" %}
 </div>
+
+
+
+<div class="content-row-pie-chart-reworks">
+    {% include "rework_chart.html" %}
+</div>
+
 
 
 
